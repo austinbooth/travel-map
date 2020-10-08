@@ -15,9 +15,9 @@ const App = () => {
   const [viewport, setViewport] = useState<Viewport>({
     width: 800,
     height: 400,
-    latitude: 37.7577,
-    longitude: -122.4376,
-    zoom: 8,
+    latitude: 23,
+    longitude: 0,
+    zoom: 1,
   });
 
   const setCoords = (latitude: number, longitude: number) => {

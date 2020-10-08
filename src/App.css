@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.pin {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.pin img {
+  width: 100%;
+  height: 100%;
+}
