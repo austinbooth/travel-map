@@ -13,6 +13,7 @@
 
 # misc
 token.js
+firebase_config.js
 .DS_Store
 .env
 .env.local
