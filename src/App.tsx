@@ -20,6 +20,8 @@ const App = () => {
     zoom: 1,
   });
 
+  const [popupInfo, setPopupInfo] = useState<string | null >(null);
+
   const setCoords = (latitude: number, longitude: number) => {
     setViewport({ ...viewport, latitude, longitude, zoom: 8 });
   };
@@ -30,7 +32,7 @@ const App = () => {
         <h1>Travel Map</h1>
       </header>
       <LocationForm setCoords={setCoords} />
-      <Map viewport={viewport} setViewport={setViewport} />
+      <Map viewport={viewport} setViewport={setViewport} popupInfo={popupInfo} setPopupInfo={setPopupInfo} />
     </div>
   );
 };
