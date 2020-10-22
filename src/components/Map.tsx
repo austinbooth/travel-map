@@ -4,8 +4,30 @@ import { MAPBOX_TOKEN } from "../token";
 import redPin from "../images/red-pin.png";
 
 const visited = [
-  { name: "Prague", latitude: 50.0755, longitude: 14.4378 },
-  { name: "Berlin", latitude: 52.52, longitude: 13.405 },
+  {
+    name: "Prague",
+    latitude: 50.0755,
+    longitude: 14.4378,
+    images: [
+      {
+        src:
+          "https://firebasestorage.googleapis.com/v0/b/travel-map-6fc3a.appspot.com/o/color_wheel_4_background.svg?alt=media&token=5e3ac8c6-fa5f-424c-a7d7-4de0c387b3ef",
+        alt: "Image alt text",
+      },
+    ],
+  },
+  {
+    name: "Berlin",
+    latitude: 52.52,
+    longitude: 13.405,
+    images: [
+      {
+        src:
+          "https://firebasestorage.googleapis.com/v0/b/travel-map-6fc3a.appspot.com/o/color_wheel_4_background.svg?alt=media&token=5e3ac8c6-fa5f-424c-a7d7-4de0c387b3ef",
+        alt: "Image alt text",
+      },
+    ],
+  },
 ];
 
 interface Viewport {
@@ -31,7 +53,13 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = (props) => {
   const pinData = visited.map((pin) => (
-    <Marker key={pin.name} longitude={pin.longitude} latitude={pin.latitude} offsetTop={-25} offsetLeft={-15}>
+    <Marker
+      key={pin.name}
+      longitude={pin.longitude}
+      latitude={pin.latitude}
+      offsetTop={-25}
+      offsetLeft={-15}
+    >
       <div className="pin" onClick={() => props.setPopupInfo(pin.name)}>
         <img src={redPin} alt={"pin"} />
       </div>
@@ -39,18 +67,23 @@ const Map: React.FC<MapProps> = (props) => {
   ));
 
   const popUp = (find: string) => {
-    const info = visited.filter(location => location.name === find)[0];
+    const info = visited.filter((location) => location.name === find)[0];
     console.log(info.name);
-    return (<Popup
-            tipSize={5}
-            anchor="top"
-            latitude={info.latitude}
-            longitude={info.longitude}
-            closeOnClick={false}
-            onClose={() => props.setPopupInfo(null)}
-          >{info.name}</Popup>)
-  }
-  
+    return (
+      <Popup
+        tipSize={5}
+        anchor="top"
+        latitude={info.latitude}
+        longitude={info.longitude}
+        closeOnClick={false}
+        onClose={() => props.setPopupInfo(null)}
+      >
+        {info.name}
+        <img src={info.images[0].src} alt={info.images[0].alt}></img>
+      </Popup>
+    );
+  };
+
   return (
     <MapGL
       {...props.viewport}
