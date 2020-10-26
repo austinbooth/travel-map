@@ -27,7 +27,7 @@ const LocationForm: React.FC<LocationFormProps> = (props) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const entered = event.target.value;
 
-    const locations = ["prague", "Berlin", "paris", "st petersburg", "Split"];
+    const locations = ["Prague", "Berlin", "Paris", "St Petersburg", "Split"];
     // const inputText = locationInputRef.current!.value;
     const possibleOptions = locations.filter((location) =>
       location.toLowerCase().includes(entered.toLowerCase())

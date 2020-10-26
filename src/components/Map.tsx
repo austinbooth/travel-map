@@ -85,14 +85,16 @@ const Map: React.FC<MapProps> = (props) => {
   };
 
   return (
-    <MapGL
-      {...props.viewport}
-      onViewportChange={(viewport) => props.setViewport(viewport)}
-      mapboxApiAccessToken={MAPBOX_TOKEN}
-    >
-      {pinData}
-      {props.popupInfo && popUp(props.popupInfo)}
-    </MapGL>
+    <div className="map-container">
+      <MapGL
+        {...props.viewport}
+        onViewportChange={(viewport) => props.setViewport(viewport)}
+        mapboxApiAccessToken={MAPBOX_TOKEN}
+      >
+        {pinData}
+        {props.popupInfo && popUp(props.popupInfo)}
+      </MapGL>
+    </div>
   );
 };
 
