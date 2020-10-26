@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import * as api from "../api";
 
 interface LocationFormProps {
@@ -6,10 +6,23 @@ interface LocationFormProps {
 }
 
 const LocationForm: React.FC<LocationFormProps> = (props) => {
-  // const locationInputRef = useRef<HTMLInputElement>(null);
+  const locationInputRef = useRef<HTMLInputElement>(null);
   const [inputLocation, setInputLocation] = useState("");
   const [suggestions, setSuggestions] = useState<Array<string> | null>(null);
   const [activeSuggestion, setActiveSuggestion] = useState<number>(0);
+
+  useEffect(() => {
+    if (inputLocation) {
+      // set input element cursor position to the end
+      locationInputRef.current!.selectionStart = locationInputRef.current!.value.length;
+      locationInputRef.current!.selectionEnd = locationInputRef.current!.value.length;
+    }
+  });
+
+  useEffect(() => {
+    // ensure that if the input text is deleted, the active suggestion is reset to 0
+    if (!suggestions) setActiveSuggestion(0);
+  }, [suggestions]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -88,7 +101,7 @@ const LocationForm: React.FC<LocationFormProps> = (props) => {
           type="text"
           id="location"
           name="location"
-          // ref={locationInputRef}
+          ref={locationInputRef}
           onChange={handleChange}
           onKeyDown={handleKeyPress}
           value={inputLocation}
