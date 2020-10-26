@@ -1,5 +1,8 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pin {
@@ -16,9 +19,6 @@
 }
 
 .form-and-suggestions-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin-bottom: 25px;
 }
 
