@@ -59,3 +59,9 @@ button {
   font-size: 1rem;
   margin-left: 5px;
 }
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
