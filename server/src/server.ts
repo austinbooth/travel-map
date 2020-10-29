@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
-// const connectDB = require('./config/db');
+const connectDB = require("./db");
 import apiRouter from "./routers/api.router";
 
 const app = express();
 
 // connect db
-// connectDB();
+connectDB();
 
 // init middleware
 app.use(express.json());
