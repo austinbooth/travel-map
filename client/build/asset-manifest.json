@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7ecad074.chunk.css",
+    "main.js": "/static/js/main.1d2382e5.chunk.js",
+    "main.js.map": "/static/js/main.1d2382e5.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.3a470e45.js",
+    "runtime-main.js.map": "/static/js/runtime-main.3a470e45.js.map",
+    "static/js/2.0deb350e.chunk.js": "/static/js/2.0deb350e.chunk.js",
+    "static/js/2.0deb350e.chunk.js.map": "/static/js/2.0deb350e.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.c479ae8913c04af477d86713ac81f781.js": "/precache-manifest.c479ae8913c04af477d86713ac81f781.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.7ecad074.chunk.css.map": "/static/css/main.7ecad074.chunk.css.map",
+    "static/js/2.0deb350e.chunk.js.LICENSE.txt": "/static/js/2.0deb350e.chunk.js.LICENSE.txt",
+    "static/media/red-pin.png": "/static/media/red-pin.43ca6b14.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3a470e45.js",
+    "static/js/2.0deb350e.chunk.js",
+    "static/css/main.7ecad074.chunk.css",
+    "static/js/main.1d2382e5.chunk.js"
+  ]
+}
