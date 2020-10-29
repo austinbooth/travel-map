@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoURI from "./token";
+import { mongoURI } from "./token";
 
 const connectDB = async () => {
   try {
