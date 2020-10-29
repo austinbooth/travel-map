@@ -13,6 +13,7 @@ node_modules
 
 # misc
 token.js
+token.ts
 firebase_config.js
 .DS_Store
 .env
