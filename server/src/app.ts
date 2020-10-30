@@ -18,6 +18,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.json({ msg: err.message });
 });
 
-const PORT = process.env.PORT || 9090;
-
-app.listen(PORT, () => console.log(`Listening on port ${PORT}...`));
+export default app;
