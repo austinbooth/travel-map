@@ -11,6 +11,9 @@ node_modules
 # production
 /build
 
+# compiled files
+dist
+
 # misc
 token.js
 token.ts
