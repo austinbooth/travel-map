@@ -78,8 +78,10 @@ const Map: React.FC<MapProps> = (props) => {
         closeOnClick={false}
         onClose={() => props.setPopupInfo(null)}
       >
-        {info.name}
-        <img src={info.images[0].src} alt={info.images[0].alt}></img>
+        <div onClick={()=>console.log('clicked!')}>
+          {info.name}
+          <img src={info.images[0].src} alt={info.images[0].alt}></img>
+        </div>
       </Popup>
     );
   };
