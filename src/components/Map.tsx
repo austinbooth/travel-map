@@ -1,7 +1,7 @@
-import React from "react";
-import MapGL, { Marker, Popup } from "react-map-gl";
-import { MAPBOX_TOKEN } from "../token";
-import redPin from "../images/red-pin.png";
+import { FC } from "react"
+import MapGL, { Marker, Popup } from "react-map-gl"
+import { MAPBOX_TOKEN } from "../token"
+import redPin from "../images/red-pin.png"
 
 const visited = [
   {
@@ -28,30 +28,30 @@ const visited = [
       },
     ],
   },
-];
+]
 
 interface Viewport {
-  width: number;
-  height: number;
-  latitude: number;
-  longitude: number;
-  zoom: number;
+  width: number
+  height: number
+  latitude: number
+  longitude: number
+  zoom: number
 }
 
 interface MapProps {
   viewport: {
-    width: number;
-    height: number;
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
-  setViewport: (viewport: Viewport) => void;
-  popupInfo: string | null;
-  setPopupInfo: (location: string | null) => void;
+    width: number
+    height: number
+    latitude: number
+    longitude: number
+    zoom: number
+  }
+  setViewport: (viewport: Viewport) => void
+  popupInfo: string | null
+  setPopupInfo: (location: string | null) => void
 }
 
-const Map: React.FC<MapProps> = (props) => {
+const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => {
   const pinData = visited.map((pin) => (
     <Marker
       key={pin.name}
@@ -60,15 +60,18 @@ const Map: React.FC<MapProps> = (props) => {
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" onClick={() => props.setPopupInfo(pin.name)}>
+      <div className="pin" onClick={() => setPopupInfo(pin.name)}>
         <img src={redPin} alt={"pin"} />
       </div>
     </Marker>
-  ));
+  ))
 
   const popUp = (find: string) => {
-    const info = visited.filter((location) => location.name === find)[0];
-    console.log(info.name);
+    const info = visited.find((location) => location.name === find)
+    if (!info) {
+      return <div>Location not found</div>
+    }
+    console.log(info.name)
     return (
       <Popup
         tipSize={5}
@@ -76,28 +79,29 @@ const Map: React.FC<MapProps> = (props) => {
         latitude={info.latitude}
         longitude={info.longitude}
         closeOnClick={false}
-        onClose={() => props.setPopupInfo(null)}
+        onClose={() => setPopupInfo(null)}
       >
         <div onClick={()=>console.log('clicked!')}>
           {info.name}
           <img src={info.images[0].src} alt={info.images[0].alt}></img>
         </div>
       </Popup>
-    );
-  };
+    )
+  }
 
   return (
     <div className="map-container">
       <MapGL
-        {...props.viewport}
-        onViewportChange={(viewport) => props.setViewport(viewport)}
+        {...viewport}
+        onViewportChange={(viewport: Viewport) => setViewport(viewport)}
         mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
-        {props.popupInfo && popUp(props.popupInfo)}
+        {popupInfo && popUp(popupInfo)}
       </MapGL>
     </div>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map
