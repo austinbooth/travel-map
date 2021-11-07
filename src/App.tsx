@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import "./App.css";
-import LocationForm from "./components/LocationForm";
-import Map from "./components/Map";
+import React, { useState } from "react"
+import "./App.css"
+import LocationForm from "./components/LocationForm"
+import Map from "./components/Map"
 
 interface Viewport {
-  width: number;
-  height: number;
-  latitude: number;
-  longitude: number;
-  zoom: number;
+  width: number
+  height: number
+  latitude: number
+  longitude: number
+  zoom: number
 }
 
 const App = () => {
@@ -18,13 +18,13 @@ const App = () => {
     latitude: 23,
     longitude: 0,
     zoom: 1,
-  });
+  })
 
-  const [popupInfo, setPopupInfo] = useState<string | null>(null);
+  const [popupInfo, setPopupInfo] = useState<string | null>(null)
 
   const setCoords = (latitude: number, longitude: number) => {
-    setViewport({ ...viewport, latitude, longitude, zoom: 8 });
-  };
+    setViewport({ ...viewport, latitude, longitude, zoom: 8 })
+  }
 
   return (
     <div className="App">
@@ -39,7 +39,7 @@ const App = () => {
         setPopupInfo={setPopupInfo}
       />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
