@@ -95,6 +95,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         {...viewport}
         onViewportChange={(viewport: Viewport) => setViewport(viewport)}
         mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
         {popupInfo && popUp(popupInfo)}
