@@ -1,0 +1,3 @@
+- I can upload photos/trips and tag with hashtags
+- I can view previous photos/trips
+- I can follow people/locations/hashtags
