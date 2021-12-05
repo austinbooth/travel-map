@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import "./App.css"
 import LocationForm from "./components/LocationForm"
 import Map from "./components/Map"
+import { auth, db } from '../firebaseSingleton'
 
 interface Viewport {
   width: number
