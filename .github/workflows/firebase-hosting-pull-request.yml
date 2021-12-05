@@ -7,6 +7,9 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    env:
+      MAPBOX_TOKEN: '${{ secrets.MAPBOX_KEY }}'
+      OPENCAGE_TOKEN: '${{ secrets.OPENCAGE_KEY }}'
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
@@ -15,6 +18,3 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVEL_MAP_6FC3A }}'
           projectId: travel-map-6fc3a
-        env:
-          MAPBOX_TOKEN: '${{ secrets.MAPBOX_KEY }}'
-          OPENCAGE_TOKEN: '${{ secrets.OPENCAGE_KEY }}'
