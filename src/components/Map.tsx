@@ -93,7 +93,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       <MapGL
         {...viewport}
         onViewportChange={(viewport: Viewport) => setViewport(viewport)}
-        mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}

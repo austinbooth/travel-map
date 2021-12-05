@@ -4,8 +4,8 @@
 name: Deploy to Firebase Hosting on PR
 'on': pull_request
 env:
-  MAPBOX_TOKEN: ${{ secrets.MAPBOX_KEY }}
-  OPENCAGE_TOKEN: ${{ secrets.OPENCAGE_KEY }}
+  REACT_APP_MAPBOX_KEY: ${{ secrets.REACT_APP_MAPBOX_KEY }}
+  REACT_APP_OPENCAGE_KEY: ${{ secrets.REACT_APP_OPENCAGE_KEY }}
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
