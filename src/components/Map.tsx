@@ -1,6 +1,5 @@
 import { FC } from "react"
 import MapGL, { Marker, Popup } from "react-map-gl"
-import { MAPBOX_TOKEN } from "../token"
 import redPin from "../images/red-pin.png"
 
 const visited = [
@@ -94,7 +93,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       <MapGL
         {...viewport}
         onViewportChange={(viewport: Viewport) => setViewport(viewport)}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapboxApiAccessToken={process.env.MAPBOX_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}

@@ -15,3 +15,6 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVEL_MAP_6FC3A }}'
           projectId: travel-map-6fc3a
+        env:
+          MAPBOX_TOKEN: ${{ secrets.MAPBOX_KEY }}
+          OPENCAGE_TOKEN: ${{ secrets.OPENCAGE_KEY }}
