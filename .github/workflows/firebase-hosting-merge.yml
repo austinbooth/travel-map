@@ -19,5 +19,5 @@ jobs:
           channelId: live
           projectId: travel-map-6fc3a
         env:
-          MAPBOX_TOKEN: ${{ secrets.MAPBOX_KEY }}
-          OPENCAGE_TOKEN: ${{ secrets.OPENCAGE_KEY }}
+          MAPBOX_TOKEN: '${{ secrets.MAPBOX_KEY }}'
+          OPENCAGE_TOKEN: '${{ secrets.OPENCAGE_KEY }}'
