@@ -8,7 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import "./App.css"
 import LocationForm from "./components/LocationForm"
 import Map from "./components/Map"
-import { auth, db } from './firebaseSingleton'
+import { auth } from './firebaseSingleton'
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import { User } from './types'
@@ -22,6 +22,7 @@ interface Viewport {
 }
 
 const App = () => {
+  // eslint-disable-next-line
   const [user, setUser] = useState<User | undefined>()
   useEffect(() => {
     auth.onAuthStateChanged((newFirebaseUser) => {
@@ -31,6 +32,7 @@ const App = () => {
       console.log('Logged in', newFirebaseUser?.displayName)
     })
   }, [])
+  // console.log(user)
 
   const [viewport, setViewport] = useState<Viewport>({
     width: 800,
