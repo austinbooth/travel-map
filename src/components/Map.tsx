@@ -1,7 +1,14 @@
 import { FC } from "react"
 import MapGL, { Marker, Popup } from "react-map-gl"
-import { MAPBOX_TOKEN } from "../token"
 import redPin from "../images/red-pin.png"
+
+// Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:
+import mapboxgl from 'mapbox-gl'
+// The following is required to stop "npm build" from transpiling mapbox code.
+// notice the exclamation point in the import.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default 
 
 const visited = [
   {
@@ -94,7 +101,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       <MapGL
         {...viewport}
         onViewportChange={(viewport: Viewport) => setViewport(viewport)}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_KEY}
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
