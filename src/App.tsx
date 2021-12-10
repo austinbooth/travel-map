@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import {
-  BrowserRouter,
   Routes,
-  Route
+  Route,
+  useNavigate
 } from "react-router-dom"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import "./App.css"
@@ -11,6 +11,7 @@ import Map from "./components/Map"
 import { auth } from './firebaseSingleton'
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
+import Upload from "./components/Upload"
 import { User } from './types'
 
 interface Viewport {
@@ -24,6 +25,8 @@ interface Viewport {
 const App = () => {
   // eslint-disable-next-line
   const [user, setUser] = useState<User | undefined>()
+  const navigate = useNavigate()
+
   useEffect(() => {
     auth.onAuthStateChanged((newFirebaseUser) => {
       if (newFirebaseUser?.displayName && newFirebaseUser.uid) {
@@ -32,7 +35,6 @@ const App = () => {
       console.log('Logged in', newFirebaseUser?.displayName)
     })
   }, [])
-  // console.log(user)
 
   const [viewport, setViewport] = useState<Viewport>({
     width: 800,
@@ -49,7 +51,6 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
       <Routes>
         <Route path='/' element={(
           <div className="App">
@@ -57,6 +58,7 @@ const App = () => {
             <h1>Travel Map</h1>
           </header>
           <LocationForm setCoords={setCoords} />
+          <button onClick={() => navigate('/upload')}>Upload</button>
           <Map
             viewport={viewport}
             setViewport={setViewport}
@@ -68,8 +70,8 @@ const App = () => {
         </Route>
         <Route path='signin' element={<SignIn />} />
         <Route path='signup' element={<SignUp />} />
+        <Route path='upload' element={<Upload />} />
       </Routes>
-    </BrowserRouter>
   )
 }
 
