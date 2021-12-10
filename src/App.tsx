@@ -1,7 +1,17 @@
-import React, { useState } from "react"
+import { useState, useEffect } from "react"
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom"
+import 'mapbox-gl/dist/mapbox-gl.css'
 import "./App.css"
 import LocationForm from "./components/LocationForm"
 import Map from "./components/Map"
+import { auth } from './firebaseSingleton'
+import SignUp from './components/auth/SignUp'
+import SignIn from './components/auth/SignIn'
+import { User } from './types'
 
 interface Viewport {
   width: number
@@ -12,6 +22,18 @@ interface Viewport {
 }
 
 const App = () => {
+  // eslint-disable-next-line
+  const [user, setUser] = useState<User | undefined>()
+  useEffect(() => {
+    auth.onAuthStateChanged((newFirebaseUser) => {
+      if (newFirebaseUser?.displayName && newFirebaseUser.uid) {
+        setUser({name: newFirebaseUser?.displayName, uid: newFirebaseUser?.uid})
+      }
+      console.log('Logged in', newFirebaseUser?.displayName)
+    })
+  }, [])
+  // console.log(user)
+
   const [viewport, setViewport] = useState<Viewport>({
     width: 800,
     height: 400,
@@ -27,18 +49,27 @@ const App = () => {
   }
 
   return (
-    <div className="App">
-      <header>
-        <h1>Travel Map</h1>
-      </header>
-      <LocationForm setCoords={setCoords} />
-      <Map
-        viewport={viewport}
-        setViewport={setViewport}
-        popupInfo={popupInfo}
-        setPopupInfo={setPopupInfo}
-      />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={(
+          <div className="App">
+          <header>
+            <h1>Travel Map</h1>
+          </header>
+          <LocationForm setCoords={setCoords} />
+          <Map
+            viewport={viewport}
+            setViewport={setViewport}
+            popupInfo={popupInfo}
+            setPopupInfo={setPopupInfo}
+          />
+        </div>
+        )}>
+        </Route>
+        <Route path='signin' element={<SignIn />} />
+        <Route path='signup' element={<SignUp />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
