@@ -1,13 +1,13 @@
 import { FC, useState, ChangeEvent } from 'react'
 import { ref, uploadBytes } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
-import { storage } from '../firebaseSingleton'
+import { storage, db } from '../firebaseSingleton'
 import { v4 as uuid } from 'uuid'
 import { DateTime } from 'luxon'
 import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
 import { getPlaceFromLatLng } from '../api'
-import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
+import { Timestamp as firestoreTimestamp, doc, setDoc } from 'firebase/firestore'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -52,7 +52,7 @@ const Upload: FC = () => {
         const { deg } = r
         const firestoreFileRefThumbnail = ref(storage, `${user.uid}/${dateFolder}/${uploadFileName}-thumb`)
         await uploadBytes(firestoreFileRefThumbnail, thumbnail, {contentType: 'image/jpeg'})
-        const thumbnailUri = firestoreFileRef.toString()
+        const thumbnailUri = firestoreFileRefThumbnail.toString()
         console.log('Uploaded thumbnail:', thumbnailUri)
 
         const dbEntity = {
@@ -65,8 +65,7 @@ const Upload: FC = () => {
           city, // use city and country for the pin popup
           country,
         }
-
-
+        await setDoc(doc(db, `users/${user.uid}/media/`, dateFolder), dbEntity)
         setImageUploaded(true)
       } catch (err) {
         console.error(err)
