@@ -55,7 +55,7 @@ const Upload: FC = () => {
         const thumbnailUri = firestoreFileRefThumbnail.toString()
         console.log('Uploaded thumbnail:', thumbnailUri)
 
-        const docRef = doc(collection(db, `users/${user.uid}`, dateFolder))
+        const docRef = doc(collection(db, `users/${user.uid}`, 'media'))
         const dbEntity = {
           uid: docRef.id,
           imageUri,
