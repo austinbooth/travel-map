@@ -7,7 +7,7 @@ import { DateTime } from 'luxon'
 import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
 import { getPlaceFromLatLng } from '../api'
-import { Timestamp as firestoreTimestamp, doc, setDoc } from 'firebase/firestore'
+import { Timestamp as firestoreTimestamp, doc, setDoc, collection } from 'firebase/firestore'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -55,7 +55,9 @@ const Upload: FC = () => {
         const thumbnailUri = firestoreFileRefThumbnail.toString()
         console.log('Uploaded thumbnail:', thumbnailUri)
 
+        const docRef = doc(collection(db, `users/${user.uid}`, dateFolder))
         const dbEntity = {
+          uid: docRef.id,
           imageUri,
           thumbnailUri,
           rotation: deg,
@@ -64,8 +66,8 @@ const Upload: FC = () => {
           longitude,
           city, // use city and country for the pin popup
           country,
-        }
-        await setDoc(doc(db, `users/${user.uid}/media/`, dateFolder), dbEntity)
+        }        
+        await setDoc(docRef, dbEntity)
         setImageUploaded(true)
       } catch (err) {
         console.error(err)
