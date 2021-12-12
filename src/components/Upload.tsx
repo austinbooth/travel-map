@@ -7,6 +7,7 @@ import { DateTime } from 'luxon'
 import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
 import { getPlaceFromLatLng } from '../api'
+import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -58,7 +59,7 @@ const Upload: FC = () => {
           imageUri,
           thumbnailUri,
           rotation: deg,
-          datetime: datetime.toMillis(), // convert to firebase datetime
+          datetime: firestoreTimestamp.fromDate(datetime.toJSDate()),
           latitude,
           longitude,
           city, // use city and country for the pin popup
