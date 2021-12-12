@@ -1,75 +1,45 @@
 import { useState, useEffect } from "react"
 import {
-  BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import "./App.css"
-import LocationForm from "./components/LocationForm"
-import Map from "./components/Map"
 import { auth } from './firebaseSingleton'
+import Home from "./components/Home"
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
+import Upload from "./components/Upload"
 import { User } from './types'
 
-interface Viewport {
-  width: number
-  height: number
-  latitude: number
-  longitude: number
-  zoom: number
-}
-
 const App = () => {
-  // eslint-disable-next-line
+  const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<User | undefined>()
+
   useEffect(() => {
+    console.log('Running auth useEffect again...')
     auth.onAuthStateChanged((newFirebaseUser) => {
+      setLoading(true)
       if (newFirebaseUser?.displayName && newFirebaseUser.uid) {
         setUser({name: newFirebaseUser?.displayName, uid: newFirebaseUser?.uid})
       }
+      setLoading(false)
       console.log('Logged in', newFirebaseUser?.displayName)
     })
   }, [])
-  // console.log(user)
 
-  const [viewport, setViewport] = useState<Viewport>({
-    width: 800,
-    height: 400,
-    latitude: 23,
-    longitude: 0,
-    zoom: 1,
-  })
-
-  const [popupInfo, setPopupInfo] = useState<string | null>(null)
-
-  const setCoords = (latitude: number, longitude: number) => {
-    setViewport({ ...viewport, latitude, longitude, zoom: 8 })
+  if (loading) {
+    return <p>Loading...</p>
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={(
-          <div className="App">
-          <header>
-            <h1>Travel Map</h1>
-          </header>
-          <LocationForm setCoords={setCoords} />
-          <Map
-            viewport={viewport}
-            setViewport={setViewport}
-            popupInfo={popupInfo}
-            setPopupInfo={setPopupInfo}
-          />
-        </div>
-        )}>
-        </Route>
-        <Route path='signin' element={<SignIn />} />
-        <Route path='signup' element={<SignUp />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path='/'      element={<Home />} />
+      <Route path='signin' element={!user ? <SignIn /> : <Navigate to='/' replace />} />
+      <Route path='signup' element={!user ? <SignUp /> : <Navigate to='/' replace />} />
+      <Route path='upload' element={ user ? <Upload /> : <Navigate to='/signin' replace />} />
+    </Routes>
   )
 }
 

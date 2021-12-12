@@ -19,3 +19,18 @@ export const getLatLngFromName = async (
     throw new Error('Error fetching coordinates.')
   }
 }
+
+export const getPlaceFromLatLng = async ({lat, lng}: Coords) => {
+  const api_url = "https://api.opencagedata.com/geocode/v1/json"
+  const request_url = `${api_url}?key=${process.env.REACT_APP_OPENCAGE_KEY}&q=${lat}+${lng}`
+  try {
+    const data = (await axios.get(request_url)).data.results[0].components
+    return {
+      city: data.city,
+      country: data.country
+    }
+  } catch (err) {
+    console.error(err)
+    throw new Error('Error fetching placename.')
+  }
+}
