@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid'
 import { DateTime } from 'luxon'
 import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
+import { getPlaceFromLatLng } from '../api'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -40,8 +41,7 @@ const Upload: FC = () => {
         console.log('Uploaded:', imageUri)
 
         const { latitude, longitude } = await exifr.gps(selectedFile)
-        // const place = await getPlaceFromLatLng({lat: latitude, lng: longitude})
-        // console.log('PLACE:', place)
+        const { city, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
         const thumbnail = await exifr.thumbnail(selectedFile)
         const r = await exifr.rotation(selectedFile)
 
@@ -61,6 +61,8 @@ const Upload: FC = () => {
           datetime: datetime.toMillis(), // convert to firebase datetime
           latitude,
           longitude,
+          city, // use city and country for the pin popup
+          country,
         }
 
 
