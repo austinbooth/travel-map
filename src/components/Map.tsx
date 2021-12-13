@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from "react"
 import MapGL, { Marker, Popup } from "react-map-gl"
 import redPin from "../images/red-pin.png"
-import { getAllMediaForUser } from "../firestoreUtils"
+import { getAllMediaForUser, getDownloadUrlFromUri } from "../firestoreUtils"
+import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
 import { MediaData } from "../types"
 
@@ -62,29 +63,6 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
     </Marker>
   ))
 
-  const popUp = (uid: string) => {
-    const info = data.find((location) => location.uid === uid)
-    if (!info) {
-      return <div>Location not found</div>
-    }
-    console.log(info.city)
-    return (
-      <Popup
-        tipSize={5}
-        anchor="top"
-        latitude={info.latitude}
-        longitude={info.longitude}
-        closeOnClick={false}
-        onClose={() => setPopupInfo(null)}
-      >
-        <div onClick={()=>console.log('clicked!')}>
-          {info.city}
-          {/* <img src={info.images[0].src} alt={info.images[0].alt}></img> */}
-        </div>
-      </Popup>
-    )
-  }
-
   return (
     <div className="map-container">
       <MapGL
@@ -94,7 +72,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
-        {popupInfo && popUp(popupInfo)}
+        {popupInfo && <PopUp uid={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
       </MapGL>
     </div>
   )
