@@ -23,6 +23,10 @@
   margin-top: 0.5rem;
 }
 
+.popup-info {
+  margin-top: 0;
+}
+
 .form-and-suggestions-container {
   margin-bottom: 25px;
 }

@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData } from '../types'
+import { DateTime } from 'luxon'
 
 interface Props {
   uid: string
@@ -40,6 +41,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
     >
       <div onClick={()=>console.log('clicked!')} className='popup'>
         <p className='popup-place-heading'>{info.place}</p>
+        <p className='popup-info'>{DateTime.fromJSDate(info.datetime.toDate()).toFormat('dd LLL yyyy')}</p>
         {thumbnailUrl && (
           <img
             src={thumbnailUrl}
