@@ -42,7 +42,7 @@ const Upload: FC = () => {
         console.log('Uploaded:', imageUri)
 
         const { latitude, longitude } = await exifr.gps(selectedFile)
-        const { city, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
+        const { place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
         const thumbnail = await exifr.thumbnail(selectedFile)
         const r = await exifr.rotation(selectedFile)
 
@@ -64,7 +64,7 @@ const Upload: FC = () => {
           datetime: firestoreTimestamp.fromDate(datetime.toJSDate()),
           latitude,
           longitude,
-          city, // use city and country for the pin popup
+          place,
           country,
         }        
         await setDoc(docRef, dbEntity)
