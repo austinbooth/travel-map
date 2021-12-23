@@ -3,6 +3,21 @@ import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData } from '../types'
 import { DateTime } from 'luxon'
+import Modal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
+import { SxProps } from '@mui/system'
+
+const boxStyle: SxProps = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+}
 
 interface Props {
   uid: string
@@ -12,7 +27,13 @@ interface Props {
 
 const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>()
+  const [imageUrl, setImageUrl] = useState<string>()
   const [info, setInfo] = useState<MediaData>()
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleOpenModal = () => setOpenModal(true)
+  const handleCloseModal = () => setOpenModal(false)
+
   useEffect(() => {
     void (async () => {
       const info = data.find((location) => location.uid === uid)
@@ -24,6 +45,10 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       const thumbnailUrl = await getDownloadUrlFromUri(info.thumbnailUri)
       if (thumbnailUrl) {
         setThumbnailUrl(thumbnailUrl)
+      }
+      const imageUrl = await getDownloadUrlFromUri(info.imageUri)
+      if (imageUrl) {
+        setImageUrl(imageUrl)
       }
     })()
   },[])
@@ -39,7 +64,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       closeOnClick={false}
       onClose={() => setPopupInfo(null)}
     >
-      <div onClick={()=>console.log('clicked!')} className='popup'>
+      <div onClick={handleOpenModal} className='popup'>
         <p className='popup-place-heading'>{info.place}</p>
         <p className='popup-info'>{DateTime.fromJSDate(info.datetime.toDate()).toFormat('dd LLL yyyy')}</p>
         {thumbnailUrl && (
@@ -52,6 +77,22 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
             }}
           />)}
       </div>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+      >
+        <Box sx={boxStyle}>
+          <p className='popup-place-heading'>{info.place}</p>
+          <p className='popup-info'>{DateTime.fromJSDate(info.datetime.toDate()).toFormat('dd LLL yyyy')}</p>
+          <img
+            src={imageUrl}
+            alt={info.place}
+            style={{
+              maxHeight: '200px'
+            }}
+          />
+        </Box>
+      </Modal>
     </Popup>
   )
 }
