@@ -26,7 +26,7 @@ export const getPlaceFromLatLng = async ({lat, lng}: Coords) => {
   try {
     const data = (await axios.get(request_url)).data.results[0].components
     return {
-      city: data.city,
+      city: data.city ?? data.village,
       country: data.country
     }
   } catch (err) {
