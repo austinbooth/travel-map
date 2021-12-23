@@ -18,7 +18,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       if (!info) {
         return <div>Location not found</div>
       }
-      console.log(info.city)
+      console.log(info.place)
       setInfo(info)
       const thumbnailUrl = await getDownloadUrlFromUri(info.thumbnailUri)
       if (thumbnailUrl) {
@@ -39,11 +39,11 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       onClose={() => setPopupInfo(null)}
     >
       <div onClick={()=>console.log('clicked!')} className='popup'>
-        <p className='popup-place-heading'>{info.city}</p>
+        <p className='popup-place-heading'>{info.place}</p>
         {thumbnailUrl && (
           <img
             src={thumbnailUrl}
-            alt={info.city}
+            alt={info.place}
             style={{
               transform: `rotate(${info.rotation}deg)`,
               height: '50px'

@@ -15,6 +15,6 @@ export interface MediaData {
   datetime: Timestamp
   latitude: number
   longitude: number
-  city: string
+  place: string
   country: string
 }
