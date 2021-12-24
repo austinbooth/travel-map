@@ -1,13 +1,12 @@
 import { DateTime } from 'luxon'
 import { Timestamp } from 'firebase/firestore'
-import { groupMedia } from '../util'
 import { MediaData, MediaDataProcessed } from '../types'
 
-const s1Timestamp = Timestamp.fromDate(DateTime.now().minus({years: 1}).toJSDate())
-const g1Timestamp = Timestamp.fromDate(DateTime.now().minus({months: 6}).toJSDate())
-const g2Timestamp = Timestamp.fromDate(DateTime.now().minus({months: 6}).toJSDate())
+export const s1Timestamp = Timestamp.fromDate(DateTime.now().minus({years: 1}).toJSDate())
+export const g1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 180}).toJSDate())
+export const g2Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 179}).toJSDate())
 
-const testData: MediaData[] = [
+export const testData: MediaData[] = [
   {
     uid: 'S1',
     country: "United Kingdom",
@@ -43,7 +42,7 @@ const testData: MediaData[] = [
   }
 ]
 
-const expectedData: MediaDataProcessed[] = [
+export const processedData: MediaDataProcessed[] = [
   {
     latitude: 53.42764722222222,
     longitude: -1.70495,
@@ -82,11 +81,3 @@ const expectedData: MediaDataProcessed[] = [
     ]
   }
 ]
-
-describe('groupMedia fn', () => {
-  test('test', () => {
-    const result = groupMedia(testData)
-    expect(result).toEqual(expectedData)
-  })
-})
-
