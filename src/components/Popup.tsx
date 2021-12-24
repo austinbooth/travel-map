@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
 import { compact } from 'lodash'
+import { getDateOrDateRange } from '../util'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -54,6 +55,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
   if (!info) {
     return <p>Loading...</p>
   }
+  const dateOrDateRange = getDateOrDateRange(info)
   return (
     <Popup
       tipSize={5}
@@ -65,8 +67,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
     >
       <div onClick={handleOpenModal} className='popup'>
         <p className='popup-place-heading'>{info.place}</p>
-        <p className='popup-info'>{DateTime.fromJSDate(info.images[0].datetime.toDate()).toFormat('dd LLL yyyy')}</p>
-        {/* TODO - change this date to a range of dates */}
+        <p className='popup-info'>{dateOrDateRange}</p>
         {thumbnailUrl && (
           <img
             src={thumbnailUrl}
@@ -83,8 +84,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
       >
         <Box sx={boxStyle}>
           <p className='popup-place-heading'>{info.place}</p>
-          <p className='popup-info'>{DateTime.fromJSDate(info.images[0].datetime.toDate()).toFormat('dd LLL yyyy')}</p>
-          {/* TODO - same as datetime xcomment above */}
+          <p className='popup-info'>{dateOrDateRange}</p>
 
           {imageUrls && imageUrls.map((imageUrl, idx) => (
             <img
