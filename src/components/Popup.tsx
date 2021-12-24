@@ -62,7 +62,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
       anchor="top"
       latitude={info.latitude}
       longitude={info.longitude}
-      closeOnClick={false}
+      closeOnClick={true}
       onClose={() => setPopupInfo(null)}
     >
       <div onClick={handleOpenModal} className='popup'>
