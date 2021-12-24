@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaDataProcessed } from '../types'
-import { DateTime } from 'luxon'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
@@ -51,7 +50,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
       const imageUrls = compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri))))
       setImageUrls(imageUrls)
     })()
-  },[])
+  },[data, place])
   if (!info) {
     return <p>Loading...</p>
   }

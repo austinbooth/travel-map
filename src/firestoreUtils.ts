@@ -1,4 +1,4 @@
-import { getDocs, collection, doc} from 'firebase/firestore'
+import { getDocs, collection } from 'firebase/firestore'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { db, storage } from './firebaseSingleton'
 
