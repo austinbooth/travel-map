@@ -47,5 +47,11 @@ export const getDateOrDateRange = (data: MediaDataProcessed) => {
   
   const earliest = allDates[0]
   const latest = allDates[allDates.length - 1]
-  return `${earliest.toFormat('dd LLL yyyy')} - ${latest.toFormat('dd LLL yyyy')}`
+
+  const earliestDateString = earliest.toFormat('dd LLL yyyy')
+  const latestDateString = latest.toFormat('dd LLL yyyy')
+  if (earliestDateString === latestDateString) {
+    return earliestDateString
+  }
+  return `${earliestDateString} - ${latestDateString}`
 }
