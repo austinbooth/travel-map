@@ -1,7 +1,7 @@
 import { FC, SyntheticEvent, useEffect, useState } from "react"
 import MapGL, { Marker } from "react-map-gl"
 import redPin from "../images/red-pin.png"
-import { getAllMediaForUser } from "../firestoreUtils"
+import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
 import { groupMedia } from "../util"
@@ -42,6 +42,12 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
     void (async () => {
       if (auth.currentUser?.uid) {
         const data = await getAllMediaForUser(auth.currentUser?.uid)
+        const grouped = groupMedia(data as MediaData[])
+        setData(grouped)
+      } else {
+        const users = await getAllUsers()
+        const data = (await Promise.all(users.map(user => getAllMediaForUser(user)))).flat()
+        console.log(data)
         const grouped = groupMedia(data as MediaData[])
         setData(grouped)
       }
