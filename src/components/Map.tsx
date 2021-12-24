@@ -58,7 +58,11 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" onClick={() => setPopupInfo(pin.place)}>
+      <div className="pin" onClick={() => {
+        setPopupInfo(null)
+        setTimeout(() => setPopupInfo(pin.place), 0)
+        // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open
+      }}>
         <img src={redPin} alt={"pin"} />
       </div>
     </Marker>
