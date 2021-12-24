@@ -25,8 +25,9 @@ export const getPlaceFromLatLng = async ({lat, lng}: Coords) => {
   const request_url = `${api_url}?key=${process.env.REACT_APP_OPENCAGE_KEY}&q=${lat}+${lng}`
   try {
     const data = (await axios.get(request_url)).data.results[0].components
+    console.log('-->', data)
     return {
-      city: data.city,
+      place: data.city ?? data.village ?? data.hamlet,
       country: data.country
     }
   } catch (err) {
