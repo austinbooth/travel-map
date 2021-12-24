@@ -1,6 +1,6 @@
 import { DateTime } from "luxon"
 import { groupBy, omit } from "lodash"
-import { MediaData } from "./types"
+import { MediaData, MediaDataProcessed } from "./types"
 
 export const getDateFromFilename = (filename: string): DateTime => {
   const filenameWithOutExt = filename.slice(0, -4) // need a regex that can take care of multiple file formats
@@ -32,4 +32,8 @@ export const groupMedia = (data: MediaData[]) => {
       images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country']))
     }))
   return processed
+}
+
+export const getDateOrDateRange = (data: MediaDataProcessed) => {
+  
 }
