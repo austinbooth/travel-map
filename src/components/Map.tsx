@@ -42,10 +42,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
     void (async () => {
       if (auth.currentUser?.uid) {
         const data = await getAllMediaForUser(auth.currentUser?.uid)
-        console.log('DATA:', data)
-        // TODO - group by place and have an array of thumbnails/images
         const grouped = groupMedia(data as MediaData[])
-        console.log('-->', grouped)
         setData(grouped)
       }
     })()
