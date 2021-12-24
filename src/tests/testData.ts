@@ -6,6 +6,10 @@ export const s1Timestamp = Timestamp.fromDate(DateTime.now().minus({years: 1}).t
 export const g1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 180}).toJSDate())
 export const g2Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 179}).toJSDate())
 
+export const n1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 6}).toJSDate())
+export const n2Timestamp_latest = Timestamp.fromDate(DateTime.now().minus({days: 2}).toJSDate())
+export const n3Timestamp_earliest = Timestamp.fromDate(DateTime.now().minus({days: 10}).toJSDate())
+
 export const testData: MediaData[] = [
   {
     uid: 'S1',
@@ -39,7 +43,40 @@ export const testData: MediaData[] = [
     place: "Golspie",
     rotation: 90,
     thumbnailUri: "gs://golspie-2-thumb"
-  }
+  },
+  {
+    uid: 'N1',
+    country: "United Kingdom",
+    datetime: n1Timestamp,
+    imageUri: "gs://nottingham-1",
+    latitude: 52.9548,
+    longitude: -1.1581,
+    place: "Nottingham",
+    rotation: 90,
+    thumbnailUri: "gs://nottingham-1-thumb"
+  },
+  {
+    uid: 'N2',
+    country: "United Kingdom",
+    datetime: n2Timestamp_latest,
+    imageUri: "gs://nottingham-2",
+    latitude: 52.9548,
+    longitude: -1.1581,
+    place: "Nottingham",
+    rotation: 90,
+    thumbnailUri: "gs://nottingham-2-thumb"
+  },
+  {
+    uid: 'N3',
+    country: "United Kingdom",
+    datetime: n3Timestamp_earliest,
+    imageUri: "gs://nottingham-3",
+    latitude: 52.9548,
+    longitude: -1.1581,
+    place: "Nottingham",
+    rotation: 90,
+    thumbnailUri: "gs://nottingham-3-thumb"
+  },
 ]
 
 export const processedData: MediaDataProcessed[] = [
@@ -78,6 +115,35 @@ export const processedData: MediaDataProcessed[] = [
         rotation: 90,
         datetime: g2Timestamp,
       }
+    ]
+  },
+  {
+    country: "United Kingdom",
+    latitude: 52.9548,
+    longitude: -1.1581,
+    place: "Nottingham",
+    images: [
+      {
+        uid: 'N1',
+        imageUri: "gs://nottingham-1",
+        thumbnailUri: "gs://nottingham-1-thumb",    
+        rotation: 90,
+        datetime: n1Timestamp,
+      },
+      {
+        uid: 'N2',
+        imageUri: "gs://nottingham-2",
+        thumbnailUri: "gs://nottingham-2-thumb",    
+        rotation: 90,
+        datetime: n2Timestamp_latest,
+      },
+      {
+        uid: 'N3',
+        imageUri: "gs://nottingham-3",
+        thumbnailUri: "gs://nottingham-3-thumb",    
+        rotation: 90,
+        datetime: n3Timestamp_earliest,
+      },
     ]
   }
 ]
