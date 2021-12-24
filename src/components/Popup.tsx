@@ -82,7 +82,12 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
         open={openModal}
         onClose={handleCloseModal}
       >
-        <Box sx={boxStyle}>
+        <Box sx={
+          {
+            ...boxStyle,
+            width: parseInt(`${info.images.length === 1 ? 150 : info.images.length === 2 ? 320 : 500}`)
+          }
+        }>
           <p className='popup-place-heading'>{`${info.place} ${dateOrDateRange}`}</p>
           
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'}}>
