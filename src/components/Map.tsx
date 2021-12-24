@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from "react"
-import MapGL, { Marker, Popup } from "react-map-gl"
+import MapGL, { Marker } from "react-map-gl"
 import redPin from "../images/red-pin.png"
-import { getAllMediaForUser, getDownloadUrlFromUri } from "../firestoreUtils"
+import { getAllMediaForUser } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
-import { MediaData } from "../types"
+import { groupMedia } from "../util"
+import { MediaData, MediaDataProcessed } from "../types"
 
 // Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:
 import mapboxgl from 'mapbox-gl'
@@ -36,13 +37,16 @@ interface MapProps {
 }
 
 const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => {
-  const [data, setData] = useState<MediaData[]>()
+  const [data, setData] = useState<MediaDataProcessed[]>()
   useEffect(() => {
     void (async () => {
       if (auth.currentUser?.uid) {
         const data = await getAllMediaForUser(auth.currentUser?.uid)
         console.log('DATA:', data)
-        setData(data as MediaData[])
+        // TODO - group by place and have an array of thumbnails/images
+        const grouped = groupMedia(data as MediaData[])
+        console.log('-->', grouped)
+        setData(grouped)
       }
     })()
   }, [])
@@ -51,13 +55,13 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
   }
   const pinData = data.map((pin) => (
     <Marker
-      key={pin.uid}
+      key={pin.place}
       longitude={pin.longitude}
       latitude={pin.latitude}
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" onClick={() => setPopupInfo(pin.uid)}>
+      <div className="pin" onClick={() => setPopupInfo(pin.place)}>
         <img src={redPin} alt={"pin"} />
       </div>
     </Marker>
@@ -72,7 +76,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
-        {popupInfo && <PopUp uid={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
+        {popupInfo && <PopUp place={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
       </MapGL>
     </div>
   )

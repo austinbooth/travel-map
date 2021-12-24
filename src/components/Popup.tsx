@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
-import { MediaData } from '../types'
+import { MediaDataProcessed } from '../types'
 import { DateTime } from 'luxon'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
+import { compact } from 'lodash'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -20,15 +21,15 @@ const boxStyle: SxProps = {
 }
 
 interface Props {
-  uid: string
-  data: MediaData[]
+  place: string
+  data: MediaDataProcessed[]
   setPopupInfo: (uid: string | null) => void
 }
 
-const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
+const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>()
-  const [imageUrl, setImageUrl] = useState<string>()
-  const [info, setInfo] = useState<MediaData>()
+  const [imageUrls, setImageUrls] = useState<string[]>()
+  const [info, setInfo] = useState<MediaDataProcessed>()
   const [openModal, setOpenModal] = useState(false)
 
   const handleOpenModal = () => setOpenModal(true)
@@ -36,20 +37,18 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
 
   useEffect(() => {
     void (async () => {
-      const info = data.find((location) => location.uid === uid)
+      const info = data.find((location) => location.place === place)
       if (!info) {
         return <div>Location not found</div>
       }
       console.log(info.place)
       setInfo(info)
-      const thumbnailUrl = await getDownloadUrlFromUri(info.thumbnailUri)
+      const thumbnailUrl = await getDownloadUrlFromUri(info.images[0].thumbnailUri)
       if (thumbnailUrl) {
         setThumbnailUrl(thumbnailUrl)
       }
-      const imageUrl = await getDownloadUrlFromUri(info.imageUri)
-      if (imageUrl) {
-        setImageUrl(imageUrl)
-      }
+      const imageUrls = compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri))))
+      setImageUrls(imageUrls)
     })()
   },[])
   if (!info) {
@@ -66,13 +65,14 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
     >
       <div onClick={handleOpenModal} className='popup'>
         <p className='popup-place-heading'>{info.place}</p>
-        <p className='popup-info'>{DateTime.fromJSDate(info.datetime.toDate()).toFormat('dd LLL yyyy')}</p>
+        <p className='popup-info'>{DateTime.fromJSDate(info.images[0].datetime.toDate()).toFormat('dd LLL yyyy')}</p>
+        {/* TODO - change this date to a range of dates */}
         {thumbnailUrl && (
           <img
             src={thumbnailUrl}
             alt={info.place}
             style={{
-              transform: `rotate(${info.rotation}deg)`,
+              transform: `rotate(${info.images[0].rotation}deg)`,
               height: '50px'
             }}
           />)}
@@ -83,14 +83,19 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       >
         <Box sx={boxStyle}>
           <p className='popup-place-heading'>{info.place}</p>
-          <p className='popup-info'>{DateTime.fromJSDate(info.datetime.toDate()).toFormat('dd LLL yyyy')}</p>
-          <img
-            src={imageUrl}
-            alt={info.place}
-            style={{
-              maxHeight: '200px'
-            }}
-          />
+          <p className='popup-info'>{DateTime.fromJSDate(info.images[0].datetime.toDate()).toFormat('dd LLL yyyy')}</p>
+          {/* TODO - same as datetime xcomment above */}
+
+          {imageUrls && imageUrls.map((imageUrl, idx) => (
+            <img
+              key={`${info.place}_image_${idx}`}
+              src={imageUrl}
+              alt={info.place}
+              style={{
+                maxHeight: '200px'
+              }}
+            />
+          ))}
         </Box>
       </Modal>
     </Popup>
