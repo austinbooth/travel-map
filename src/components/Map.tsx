@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, SyntheticEvent, useEffect, useState } from "react"
 import MapGL, { Marker } from "react-map-gl"
 import redPin from "../images/red-pin.png"
 import { getAllMediaForUser } from "../firestoreUtils"
@@ -58,10 +58,12 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" onClick={() => {
-        setPopupInfo(null)
-        setTimeout(() => setPopupInfo(pin.place), 0)
-        // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open
+      <div className="pin" id={pin.place} onClick={(e: SyntheticEvent) => {
+        if (e.currentTarget.id !== popupInfo) {
+          setPopupInfo(null)
+          setTimeout(() => setPopupInfo(pin.place), 0)
+          // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open  
+        }
       }}>
         <img src={redPin} alt={"pin"} />
       </div>
