@@ -14,7 +14,7 @@ const boxStyle: SxProps = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -83,19 +83,22 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
         onClose={handleCloseModal}
       >
         <Box sx={boxStyle}>
-          <p className='popup-place-heading'>{info.place}</p>
-          <p className='popup-info'>{dateOrDateRange}</p>
-
-          {imageUrls && imageUrls.map((imageUrl, idx) => (
-            <img
-              key={`${info.place}_image_${idx}`}
-              src={imageUrl}
-              alt={info.place}
-              style={{
-                maxHeight: '200px'
-              }}
-            />
-          ))}
+          <p className='popup-place-heading'>{`${info.place} ${dateOrDateRange}`}</p>
+          
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'}}>
+            {imageUrls && imageUrls.map((imageUrl, idx) => (
+              <img
+                key={`${info.place}_image_${idx}`}
+                src={imageUrl}
+                alt={info.place}
+                style={{
+                  maxHeight: '200px',
+                  margin: '5px',
+                  borderRadius: '5%'
+                }}
+              />
+            ))}
+          </div>
         </Box>
       </Modal>
     </Popup>
