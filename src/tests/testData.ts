@@ -10,6 +10,8 @@ export const n1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 6}).to
 export const n2Timestamp_latest = Timestamp.fromDate(DateTime.now().minus({days: 2}).toJSDate())
 export const n3Timestamp_earliest = Timestamp.fromDate(DateTime.now().minus({days: 10}).toJSDate())
 
+export const l1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 2}).toJSDate())
+
 export const testData: MediaData[] = [
   {
     uid: 'S1',
@@ -77,6 +79,28 @@ export const testData: MediaData[] = [
     rotation: 90,
     thumbnailUri: "gs://nottingham-3-thumb"
   },
+  {
+    uid: 'L1',
+    country: "United Kingdom",
+    datetime: l1Timestamp,
+    imageUri: "gs://london-1",
+    latitude: 51.5072,
+    longitude: -0.1276,
+    place: "London",
+    rotation: 90,
+    thumbnailUri: "gs://london-1-thumb"
+  },
+  {
+    uid: 'L2',
+    country: "United Kingdom",
+    datetime: l1Timestamp,
+    imageUri: "gs://london-2",
+    latitude: 51.5072,
+    longitude: -0.1276,
+    place: "London",
+    rotation: 90,
+    thumbnailUri: "gs://london-2-thumb"
+  },
 ]
 
 export const processedData: MediaDataProcessed[] = [
@@ -143,6 +167,28 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://nottingham-3-thumb",    
         rotation: 90,
         datetime: n3Timestamp_earliest,
+      },
+    ]
+  },
+  {
+    country: "United Kingdom",
+    latitude: 51.5072,
+    longitude: -0.1276,
+    place: "London",
+    images: [
+      {
+        uid: 'L1',
+        imageUri: "gs://london-1",
+        thumbnailUri: "gs://london-1-thumb",    
+        rotation: 90,
+        datetime: l1Timestamp,
+      },
+      {
+        uid: 'L2',
+        imageUri: "gs://london-2",
+        thumbnailUri: "gs://london-2-thumb",    
+        rotation: 90,
+        datetime: l1Timestamp,
       },
     ]
   }
