@@ -36,7 +36,7 @@ export const groupMedia = (data: MediaData[]) => {
 
 export const getDateOrDateRange = (data: MediaDataProcessed) => {
   if (data.images.length === 0) { // should not happen
-    return
+    return ''
   }
   if (data.images.length === 1) {
     return DateTime.fromJSDate(data.images[0].datetime.toDate()).toFormat('dd LLL yyyy')
