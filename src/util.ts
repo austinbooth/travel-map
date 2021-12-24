@@ -35,5 +35,17 @@ export const groupMedia = (data: MediaData[]) => {
 }
 
 export const getDateOrDateRange = (data: MediaDataProcessed) => {
+  if (data.images.length === 0) { // should not happen
+    return
+  }
+  if (data.images.length === 1) {
+    return DateTime.fromJSDate(data.images[0].datetime.toDate()).toFormat('dd LLL yyyy')
+  }
+  const allDates = data.images
+    .map(image => DateTime.fromJSDate(image.datetime.toDate()))
+    .sort((date1, date2) => date1.toMillis() - date2.toMillis())
   
+  const earliest = allDates[0]
+  const latest = allDates[allDates.length - 1]
+  return `${earliest.toFormat('dd LLL yyyy')} - ${latest.toFormat('dd LLL yyyy')}`
 }
