@@ -16,7 +16,7 @@ export const getAllUsers = async () => {
 export const getAllMediaForUser = async (uid: string) => {
   const querySnapshot = await getDocs(collection(db, `users/${uid}/media`))
   const { docs } = querySnapshot
-  return docs.map(doc => doc.data())
+  return docs.map(doc => doc.data()).map(data => ({...data, user: uid}))
 }
 
 export const getDownloadUrlFromUri = async (uri: string) => {

@@ -9,6 +9,7 @@ export interface User {
 
 export interface MediaData {
   uid: string
+  user: Uid
   imageUri: string
   thumbnailUri : string
   rotation: number
@@ -21,6 +22,7 @@ export interface MediaData {
 
 export interface ImageData {
   uid: string
+  user: Uid
   imageUri: string
   thumbnailUri : string
   rotation: number

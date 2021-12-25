@@ -15,6 +15,7 @@ export const l1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 2}).to
 export const testData: MediaData[] = [
   {
     uid: 'S1',
+    user: 'U1',
     country: "United Kingdom",
     datetime: s1Timestamp,
     imageUri: "gs://sheffield-1",
@@ -26,6 +27,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'G1',
+    user: 'U1',
     country: "United Kingdom",
     datetime: g1Timestamp,
     imageUri: "gs://golspie-1",
@@ -37,6 +39,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'G2',
+    user: 'U1',
     country: "United Kingdom",
     datetime: g2Timestamp,
     imageUri: "gs://golspie-2",
@@ -48,6 +51,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'N1',
+    user: 'U1',
     country: "United Kingdom",
     datetime: n1Timestamp,
     imageUri: "gs://nottingham-1",
@@ -59,6 +63,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'N2',
+    user: 'U1',
     country: "United Kingdom",
     datetime: n2Timestamp_latest,
     imageUri: "gs://nottingham-2",
@@ -70,6 +75,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'N3',
+    user: 'U1',
     country: "United Kingdom",
     datetime: n3Timestamp_earliest,
     imageUri: "gs://nottingham-3",
@@ -81,6 +87,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'L1',
+    user: 'U1',
     country: "United Kingdom",
     datetime: l1Timestamp,
     imageUri: "gs://london-1",
@@ -92,6 +99,7 @@ export const testData: MediaData[] = [
   },
   {
     uid: 'L2',
+    user: 'U1',
     country: "United Kingdom",
     datetime: l1Timestamp,
     imageUri: "gs://london-2",
@@ -112,6 +120,7 @@ export const processedData: MediaDataProcessed[] = [
     images: [
       {
         uid: 'S1',
+        user: 'U1',
         imageUri: "gs://sheffield-1",
         thumbnailUri: "gs://sheffield-1-thumb",
         rotation: 90,
@@ -127,6 +136,7 @@ export const processedData: MediaDataProcessed[] = [
     images: [
       {
         uid: 'G1',
+        user: 'U1',
         imageUri: "gs://golspie-1",
         thumbnailUri: "gs://golspie-1-thumb",    
         rotation: 90,
@@ -134,6 +144,7 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'G2',
+        user: 'U1',
         imageUri: "gs://golspie-2",
         thumbnailUri: "gs://golspie-2-thumb",
         rotation: 90,
@@ -149,6 +160,7 @@ export const processedData: MediaDataProcessed[] = [
     images: [
       {
         uid: 'N1',
+        user: 'U1',
         imageUri: "gs://nottingham-1",
         thumbnailUri: "gs://nottingham-1-thumb",    
         rotation: 90,
@@ -156,6 +168,7 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'N2',
+        user: 'U1',
         imageUri: "gs://nottingham-2",
         thumbnailUri: "gs://nottingham-2-thumb",    
         rotation: 90,
@@ -163,6 +176,7 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'N3',
+        user: 'U1',
         imageUri: "gs://nottingham-3",
         thumbnailUri: "gs://nottingham-3-thumb",    
         rotation: 90,
@@ -178,6 +192,7 @@ export const processedData: MediaDataProcessed[] = [
     images: [
       {
         uid: 'L1',
+        user: 'U1',
         imageUri: "gs://london-1",
         thumbnailUri: "gs://london-1-thumb",    
         rotation: 90,
@@ -185,6 +200,7 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'L2',
+        user: 'U1',
         imageUri: "gs://london-2",
         thumbnailUri: "gs://london-2-thumb",    
         rotation: 90,
