@@ -1,5 +1,6 @@
 import { DateTime } from "luxon"
 import { groupBy, omit } from "lodash"
+import { v4 as uuid } from 'uuid'
 import { MediaData, MediaDataProcessed } from "./types"
 
 export const getDateFromFilename = (filename: string): DateTime => {
@@ -24,9 +25,12 @@ export const groupMedia = (data: MediaData[]) => {
   const grouped = groupBy(data, 'place')
   const processed = Object.keys(grouped)
     .map(locationName => ({ place: locationName, images: grouped[locationName]}))
-    .map(location => ({
+    .map((location, index) => ({
       ...location,
-      latitude: location.images[0].latitude,
+      uid: uuid(),
+      // add user - check that all images belong to same user and throw if not (should never happen)
+      // then use this new prop in popup find useEffect
+      latitude: location.images[0].latitude, // compute mean when > 1 image?
       longitude: location.images[0].longitude,
       country: location.images[0].country,
       images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country']))

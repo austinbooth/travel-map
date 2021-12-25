@@ -113,6 +113,7 @@ export const testData: MediaData[] = [
 
 export const processedData: MediaDataProcessed[] = [
   {
+    uid: 'uid0',
     latitude: 53.42764722222222,
     longitude: -1.70495,
     place: "Sheffield",
@@ -129,6 +130,7 @@ export const processedData: MediaDataProcessed[] = [
     ]
   },
   {
+    uid: 'uid1',
     country: "United Kingdom",
     latitude: 57.981414,
     longitude: -3.9424690000000004,
@@ -153,6 +155,7 @@ export const processedData: MediaDataProcessed[] = [
     ]
   },
   {
+    uid: 'uid2',
     country: "United Kingdom",
     latitude: 52.9548,
     longitude: -1.1581,
@@ -185,6 +188,7 @@ export const processedData: MediaDataProcessed[] = [
     ]
   },
   {
+    uid: 'uid3',
     country: "United Kingdom",
     latitude: 51.5072,
     longitude: -0.1276,
