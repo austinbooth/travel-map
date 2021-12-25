@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore'
 
-type Uid = string // maybe refine in future
+export type Uid = string // maybe refine in future
 
 export interface User {
   name: string
