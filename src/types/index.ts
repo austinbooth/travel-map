@@ -26,6 +26,8 @@ export interface ImageData {
   thumbnailUri : string
   rotation: number
   datetime: Timestamp
+  latitude: number
+  longitude: number
 }
 export interface MediaDataProcessed {
   uid: Uid
