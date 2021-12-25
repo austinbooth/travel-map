@@ -29,6 +29,7 @@ export interface ImageData {
   datetime: Timestamp
 }
 export interface MediaDataProcessed {
+  uid: Uid
   latitude: number
   longitude: number
   place: string
