@@ -55,16 +55,16 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
   }
   const pinData = data.map((pin) => (
     <Marker
-      key={`${pin.place} ${pin.images[0].user}`}
+      key={pin.uid}
       longitude={pin.longitude}
       latitude={pin.latitude}
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" id={`${pin.place} ${pin.images[0].user}`} onClick={(e: SyntheticEvent) => {
+      <div className="pin" id={pin.uid} onClick={(e: SyntheticEvent) => {
         if (e.currentTarget.id !== popupInfo) {
           setPopupInfo(null)
-          setTimeout(() => setPopupInfo(`${pin.place} ${pin.images[0].user}`), 0)
+          setTimeout(() => setPopupInfo(pin.uid), 0)
           // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open  
         }
       }}>
@@ -82,7 +82,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
-        {popupInfo && <PopUp placeAndUser={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
+        {popupInfo && <PopUp uid={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
       </MapGL>
     </div>
   )
