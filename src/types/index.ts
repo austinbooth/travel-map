@@ -22,7 +22,6 @@ export interface MediaData {
 
 export interface ImageData {
   uid: string
-  user: Uid
   imageUri: string
   thumbnailUri : string
   rotation: number
@@ -30,6 +29,7 @@ export interface ImageData {
 }
 export interface MediaDataProcessed {
   uid: Uid
+  user: Uid
   latitude: number
   longitude: number
   place: string

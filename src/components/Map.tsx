@@ -68,7 +68,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
           // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open  
         }
       }}>
-        <img src={pin.images.find(image => image.user !== auth.currentUser?.uid) ? greenPin : redPin} alt={"pin"} />
+        <img src={pin.user === auth.currentUser?.uid ? redPin : greenPin} alt={"pin"} />
       </div>
     </Marker>
   ))

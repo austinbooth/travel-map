@@ -118,10 +118,10 @@ export const processedData: MediaDataProcessed[] = [
     longitude: -1.70495,
     place: "Sheffield",
     country: "United Kingdom",
+    user: 'U1',
     images: [
       {
         uid: 'S1',
-        user: 'U1',
         imageUri: "gs://sheffield-1",
         thumbnailUri: "gs://sheffield-1-thumb",
         rotation: 90,
@@ -135,10 +135,10 @@ export const processedData: MediaDataProcessed[] = [
     latitude: 57.981414,
     longitude: -3.9424690000000004,
     place: "Golspie",
+    user: 'U1',
     images: [
       {
         uid: 'G1',
-        user: 'U1',
         imageUri: "gs://golspie-1",
         thumbnailUri: "gs://golspie-1-thumb",    
         rotation: 90,
@@ -146,7 +146,6 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'G2',
-        user: 'U1',
         imageUri: "gs://golspie-2",
         thumbnailUri: "gs://golspie-2-thumb",
         rotation: 90,
@@ -160,10 +159,10 @@ export const processedData: MediaDataProcessed[] = [
     latitude: 52.9548,
     longitude: -1.1581,
     place: "Nottingham",
+    user: 'U1',
     images: [
       {
         uid: 'N1',
-        user: 'U1',
         imageUri: "gs://nottingham-1",
         thumbnailUri: "gs://nottingham-1-thumb",    
         rotation: 90,
@@ -171,7 +170,6 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'N2',
-        user: 'U1',
         imageUri: "gs://nottingham-2",
         thumbnailUri: "gs://nottingham-2-thumb",    
         rotation: 90,
@@ -179,7 +177,6 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'N3',
-        user: 'U1',
         imageUri: "gs://nottingham-3",
         thumbnailUri: "gs://nottingham-3-thumb",    
         rotation: 90,
@@ -193,10 +190,10 @@ export const processedData: MediaDataProcessed[] = [
     latitude: 51.5072,
     longitude: -0.1276,
     place: "London",
+    user: 'U1',
     images: [
       {
         uid: 'L1',
-        user: 'U1',
         imageUri: "gs://london-1",
         thumbnailUri: "gs://london-1-thumb",    
         rotation: 90,
@@ -204,7 +201,6 @@ export const processedData: MediaDataProcessed[] = [
       },
       {
         uid: 'L2',
-        user: 'U1',
         imageUri: "gs://london-2",
         thumbnailUri: "gs://london-2-thumb",    
         rotation: 90,

@@ -1,5 +1,5 @@
 import { DateTime } from "luxon"
-import { groupBy, omit } from "lodash"
+import { forEach, groupBy, omit } from "lodash"
 import { v4 as uuid } from 'uuid'
 import { MediaData, MediaDataProcessed } from "./types"
 
@@ -22,18 +22,22 @@ export const earliestDateTime = (date1: DateTime, date2: DateTime): DateTime => 
 }
 
 export const groupMedia = (data: MediaData[]) => {
+  const user = data[0].user
+  if (data.find(item => item.user !== user)) { // should not happen
+    throw new Error('Not all items are for the same user')
+  }
   const grouped = groupBy(data, 'place')
+  
   const processed = Object.keys(grouped)
     .map(locationName => ({ place: locationName, images: grouped[locationName]}))
-    .map((location, index) => ({
+    .map((location) => ({
       ...location,
       uid: uuid(),
-      // add user - check that all images belong to same user and throw if not (should never happen)
-      // then use this new prop in popup find useEffect
+      user,
       latitude: location.images[0].latitude, // compute mean when > 1 image?
       longitude: location.images[0].longitude,
       country: location.images[0].country,
-      images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country']))
+      images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country', 'user']))
     }))
   return processed
 }
