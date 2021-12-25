@@ -21,12 +21,12 @@ const boxStyle: SxProps = {
 }
 
 interface Props {
-  place: string
+  placeAndUser: string
   data: MediaDataProcessed[]
   setPopupInfo: (uid: string | null) => void
 }
 
-const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
+const PopUp: FC<Props> = ({placeAndUser, data, setPopupInfo}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>()
   const [imageUrls, setImageUrls] = useState<string[]>()
   const [info, setInfo] = useState<MediaDataProcessed>()
@@ -37,7 +37,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
 
   useEffect(() => {
     void (async () => {
-      const info = data.find((location) => location.place === place)
+      const info = data.find((location) => `${location.place} ${location.images[0].user}` === placeAndUser)
       if (!info) {
         return <div>Location not found</div>
       }
@@ -50,7 +50,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
       const imageUrls = compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri))))
       setImageUrls(imageUrls)
     })()
-  },[data, place])
+  },[data, placeAndUser])
   if (!info) {
     return <p>Loading...</p>
   }
