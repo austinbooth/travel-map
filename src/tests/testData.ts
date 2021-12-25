@@ -19,7 +19,7 @@ export const testData: MediaData[] = [
     country: "United Kingdom",
     datetime: s1Timestamp,
     imageUri: "gs://sheffield-1",
-    latitude: 53.42764722222222,
+    latitude: 53.427647,
     longitude: -1.70495,
     place: "Sheffield",
     rotation: 90,
@@ -32,7 +32,7 @@ export const testData: MediaData[] = [
     datetime: g1Timestamp,
     imageUri: "gs://golspie-1",
     latitude: 57.981414,
-    longitude: -3.9424690000000004,
+    longitude: -3.942469,
     place: "Golspie",
     rotation: 90,
     thumbnailUri: "gs://golspie-1-thumb"
@@ -43,8 +43,8 @@ export const testData: MediaData[] = [
     country: "United Kingdom",
     datetime: g2Timestamp,
     imageUri: "gs://golspie-2",
-    latitude: 57.98196897222223,
-    longitude: -3.9445239722222225,
+    latitude: 57.98196897,
+    longitude: -3.94452397,
     place: "Golspie",
     rotation: 90,
     thumbnailUri: "gs://golspie-2-thumb"
@@ -114,7 +114,7 @@ export const testData: MediaData[] = [
 export const processedData: MediaDataProcessed[] = [
   {
     uid: 'uid0',
-    latitude: 53.42764722222222,
+    latitude: 53.427647,
     longitude: -1.70495,
     place: "Sheffield",
     country: "United Kingdom",
@@ -126,14 +126,16 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://sheffield-1-thumb",
         rotation: 90,
         datetime: s1Timestamp,
+        latitude: 53.427647,
+        longitude: -1.70495,
       }
     ]
   },
   {
     uid: 'uid1',
     country: "United Kingdom",
-    latitude: 57.981414,
-    longitude: -3.9424690000000004,
+    latitude: (57.981414 + 57.98196897) / 2,
+    longitude: (-3.942469 + -3.94452397) / 2,
     place: "Golspie",
     user: 'U1',
     images: [
@@ -143,6 +145,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://golspie-1-thumb",    
         rotation: 90,
         datetime: g1Timestamp,
+        latitude: 57.981414,
+        longitude: -3.942469,
       },
       {
         uid: 'G2',
@@ -150,6 +154,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://golspie-2-thumb",
         rotation: 90,
         datetime: g2Timestamp,
+        latitude: 57.98196897,
+        longitude: -3.94452397,
       }
     ]
   },
@@ -167,6 +173,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://nottingham-1-thumb",    
         rotation: 90,
         datetime: n1Timestamp,
+        latitude: 52.9548,
+        longitude: -1.1581,
       },
       {
         uid: 'N2',
@@ -174,6 +182,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://nottingham-2-thumb",    
         rotation: 90,
         datetime: n2Timestamp_latest,
+        latitude: 52.9548,
+        longitude: -1.1581,
       },
       {
         uid: 'N3',
@@ -181,6 +191,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://nottingham-3-thumb",    
         rotation: 90,
         datetime: n3Timestamp_earliest,
+        latitude: 52.9548,
+        longitude: -1.1581,
       },
     ]
   },
@@ -198,6 +210,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://london-1-thumb",    
         rotation: 90,
         datetime: l1Timestamp,
+        latitude: 51.5072,
+        longitude: -0.1276,
       },
       {
         uid: 'L2',
@@ -205,6 +219,8 @@ export const processedData: MediaDataProcessed[] = [
         thumbnailUri: "gs://london-2-thumb",    
         rotation: 90,
         datetime: l1Timestamp,
+        latitude: 51.5072,
+        longitude: -0.1276, 
       },
     ]
   }

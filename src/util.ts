@@ -1,5 +1,5 @@
 import { DateTime } from "luxon"
-import { forEach, groupBy, omit } from "lodash"
+import { groupBy, omit, mean } from "lodash"
 import { v4 as uuid } from 'uuid'
 import { MediaData, MediaDataProcessed } from "./types"
 
@@ -34,10 +34,10 @@ export const groupMedia = (data: MediaData[]) => {
       ...location,
       uid: uuid(),
       user,
-      latitude: location.images[0].latitude, // compute mean when > 1 image?
-      longitude: location.images[0].longitude,
+      latitude: mean(location.images.map(l => l.latitude)),
+      longitude: mean(location.images.map(l => l.longitude)),
       country: location.images[0].country,
-      images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country', 'user']))
+      images: location.images.map(imageData => omit(imageData, ['place', 'country', 'user']))
     }))
   return processed
 }
