@@ -84,7 +84,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
         <Box sx={
           {
             ...boxStyle,
-            width: parseInt(`${info.images.length === 1 ? 150 : info.images.length === 2 ? 320 : 500}`)
+            width: parseInt(`${info.images.length === 1 ? 230 : info.images.length === 2 ? 320 : 500}`)
           }
         }>
           <p className='popup-place-heading'>{`${info.place} ${dateOrDateRange}`}</p>
