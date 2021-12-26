@@ -4,6 +4,7 @@ import * as Yup from 'yup'
 import { auth } from '../../firebaseSingleton'
 import { createUserWithEmailAndPassword, sendEmailVerification, updateProfile } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { addNewUserToFirestore } from '../../firestoreUtils'
 
 export type FirebaseErrorType = { message: string }
 
@@ -37,6 +38,7 @@ const SignUp: FC = () => {
         } else {
           await updateProfile(user, { displayName: values.name })
           await sendEmailVerification(user)
+          await addNewUserToFirestore(user.uid)
           navigate('/')
         }
       } catch (error: unknown) {

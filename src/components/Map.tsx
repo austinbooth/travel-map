@@ -1,7 +1,8 @@
 import { FC, SyntheticEvent, useEffect, useState } from "react"
 import MapGL, { Marker } from "react-map-gl"
 import redPin from "../images/red-pin.png"
-import { getAllMediaForUser } from "../firestoreUtils"
+import greenPin from "../images/green-pin.png"
+import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
 import { groupMedia } from "../util"
@@ -40,11 +41,13 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
   const [data, setData] = useState<MediaDataProcessed[]>()
   useEffect(() => {
     void (async () => {
-      if (auth.currentUser?.uid) {
-        const data = await getAllMediaForUser(auth.currentUser?.uid)
-        const grouped = groupMedia(data as MediaData[])
-        setData(grouped)
-      }
+      const users = await getAllUsers()
+      const usersData = await Promise.all(users.map(async(user) => {
+        const data = await getAllMediaForUser(user)
+        const groupedData = groupMedia(data as MediaData[])
+        return groupedData
+      }))
+      setData(usersData.flat())
     })()
   }, [])
   if (!data) {
@@ -52,20 +55,20 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
   }
   const pinData = data.map((pin) => (
     <Marker
-      key={pin.place}
+      key={pin.uid}
       longitude={pin.longitude}
       latitude={pin.latitude}
       offsetTop={-25}
       offsetLeft={-15}
     >
-      <div className="pin" id={pin.place} onClick={(e: SyntheticEvent) => {
+      <div className="pin" id={pin.uid} onClick={(e: SyntheticEvent) => {
         if (e.currentTarget.id !== popupInfo) {
           setPopupInfo(null)
-          setTimeout(() => setPopupInfo(pin.place), 0)
+          setTimeout(() => setPopupInfo(pin.uid), 0)
           // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open  
         }
       }}>
-        <img src={redPin} alt={"pin"} />
+        <img src={pin.user === auth.currentUser?.uid ? redPin : greenPin} alt={"pin"} />
       </div>
     </Marker>
   ))
@@ -79,7 +82,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
         {pinData}
-        {popupInfo && <PopUp place={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
+        {popupInfo && <PopUp uid={popupInfo} data={data} setPopupInfo={setPopupInfo} />}
       </MapGL>
     </div>
   )
