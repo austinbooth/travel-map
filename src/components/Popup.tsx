@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
-import { MediaDataProcessed } from '../types'
+import { MediaDataProcessed, Uid } from '../types'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
@@ -21,12 +21,12 @@ const boxStyle: SxProps = {
 }
 
 interface Props {
-  place: string
+  uid: Uid
   data: MediaDataProcessed[]
   setPopupInfo: (uid: string | null) => void
 }
 
-const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
+const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>()
   const [imageUrls, setImageUrls] = useState<string[]>()
   const [info, setInfo] = useState<MediaDataProcessed>()
@@ -37,7 +37,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
 
   useEffect(() => {
     void (async () => {
-      const info = data.find((location) => location.place === place)
+      const info = data.find((location) => location.uid === uid)
       if (!info) {
         return <div>Location not found</div>
       }
@@ -50,7 +50,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
       const imageUrls = compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri))))
       setImageUrls(imageUrls)
     })()
-  },[data, place])
+  },[data, uid])
   if (!info) {
     return <p>Loading...</p>
   }
@@ -84,7 +84,7 @@ const PopUp: FC<Props> = ({place, data, setPopupInfo}) => {
         <Box sx={
           {
             ...boxStyle,
-            width: parseInt(`${info.images.length === 1 ? 150 : info.images.length === 2 ? 320 : 500}`)
+            width: parseInt(`${info.images.length === 1 ? 230 : info.images.length === 2 ? 320 : 500}`)
           }
         }>
           <p className='popup-place-heading'>{`${info.place} ${dateOrDateRange}`}</p>

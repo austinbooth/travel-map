@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore'
 
-type Uid = string // maybe refine in future
+export type Uid = string // maybe refine in future
 
 export interface User {
   name: string
@@ -9,6 +9,7 @@ export interface User {
 
 export interface MediaData {
   uid: string
+  user: Uid
   imageUri: string
   thumbnailUri : string
   rotation: number
@@ -25,8 +26,12 @@ export interface ImageData {
   thumbnailUri : string
   rotation: number
   datetime: Timestamp
+  latitude: number
+  longitude: number
 }
 export interface MediaDataProcessed {
+  uid: Uid
+  user: Uid
   latitude: number
   longitude: number
   place: string

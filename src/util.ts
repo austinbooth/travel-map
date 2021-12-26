@@ -1,5 +1,6 @@
 import { DateTime } from "luxon"
-import { groupBy, omit } from "lodash"
+import { groupBy, omit, mean } from "lodash"
+import { v4 as uuid } from 'uuid'
 import { MediaData, MediaDataProcessed } from "./types"
 
 export const getDateFromFilename = (filename: string): DateTime => {
@@ -21,15 +22,22 @@ export const earliestDateTime = (date1: DateTime, date2: DateTime): DateTime => 
 }
 
 export const groupMedia = (data: MediaData[]) => {
+  const user = data[0].user
+  if (data.find(item => item.user !== user)) { // should not happen
+    throw new Error('Not all items are for the same user')
+  }
   const grouped = groupBy(data, 'place')
+  
   const processed = Object.keys(grouped)
     .map(locationName => ({ place: locationName, images: grouped[locationName]}))
-    .map(location => ({
+    .map((location) => ({
       ...location,
-      latitude: location.images[0].latitude,
-      longitude: location.images[0].longitude,
+      uid: uuid(),
+      user,
+      latitude: mean(location.images.map(l => l.latitude)),
+      longitude: mean(location.images.map(l => l.longitude)),
       country: location.images[0].country,
-      images: location.images.map(imageData => omit(imageData, ['latitude', 'longitude', 'place', 'country']))
+      images: location.images.map(imageData => omit(imageData, ['place', 'country', 'user']))
     }))
   return processed
 }
