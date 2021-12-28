@@ -1,0 +1,63 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2495,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 57.993318,
+                  "lng": -3.9558786
+              },
+              "southwest": {
+                  "lat": 57.953318,
+                  "lng": -3.9958786
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "GB",
+              "ISO_3166-1_alpha-3": "GBR",
+              "_category": "place",
+              "_type": "village",
+              "continent": "Europe",
+              "country": "United Kingdom",
+              "country_code": "gb",
+              "county": "Highland",
+              "county_code": "HLD",
+              "postcode": "KW10 6TF",
+              "state": "Scotland",
+              "state_code": "SCT",
+              "village": "Golspie"
+          },
+          "confidence": 7,
+          "formatted": "Golspie, KW10 6TF, United Kingdom",
+          "geometry": {
+              "lat": 57.973318,
+              "lng": -3.9758786
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:18:35 GMT",
+      "created_unix": 1640542715
+  },
+  "total_results": 1
+}

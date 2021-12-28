@@ -7,29 +7,16 @@ export interface User {
   uid: Uid
 }
 
-export interface MediaData {
-  uid: string
-  user: Uid
-  imageUri: string
-  thumbnailUri : string
-  rotation: number
-  datetime: Timestamp
-  latitude: number
-  longitude: number
-  place: string
-  country: string
-}
-
 export interface ImageData {
-  uid: string
   imageUri: string
   thumbnailUri : string
   rotation: number
   datetime: Timestamp
   latitude: number
   longitude: number
+  geo_data: Record<string, string | number>
 }
-export interface MediaDataProcessed {
+export interface MediaData {
   uid: Uid
   user: Uid
   latitude: number

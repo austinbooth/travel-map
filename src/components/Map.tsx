@@ -5,8 +5,7 @@ import greenPin from "../images/green-pin.png"
 import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
-import { groupMedia } from "../util"
-import { MediaData, MediaDataProcessed } from "../types"
+import { MediaData } from "../types"
 
 // Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:
 import mapboxgl from 'mapbox-gl'
@@ -38,16 +37,17 @@ interface MapProps {
 }
 
 const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => {
-  const [data, setData] = useState<MediaDataProcessed[]>()
+  const [data, setData] = useState<MediaData[]>()
   useEffect(() => {
     void (async () => {
       const users = await getAllUsers()
+      console.log('USERS:', users)
       const usersData = await Promise.all(users.map(async(user) => {
         const data = await getAllMediaForUser(user)
-        const groupedData = groupMedia(data as MediaData[])
-        return groupedData
+        return data
       }))
-      setData(usersData.flat())
+      setData(usersData.flat() as MediaData[])
+      console.log(usersData.flat())
     })()
   }, [])
   if (!data) {

@@ -1,0 +1,62 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2485,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 46.3695271,
+                  "lng": 14.1085527
+              },
+              "southwest": {
+                  "lat": 46.3582788,
+                  "lng": 14.0819905
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "SI",
+              "ISO_3166-1_alpha-3": "SVN",
+              "_category": "natural/water",
+              "_type": "water",
+              "continent": "Europe",
+              "country": "Slovenia",
+              "country_code": "si",
+              "political_union": "European Union",
+              "postcode": "4260",
+              "town": "Bled",
+              "village": "Selo pri Bledu",
+              "water": "Lake Bled"
+          },
+          "confidence": 8,
+          "formatted": "Lake Bled, 4260 Bled, Slovenia",
+          "geometry": {
+              "lat": 46.3639132,
+              "lng": 14.0938069
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:39:26 GMT",
+      "created_unix": 1640543966
+  },
+  "total_results": 1
+}
