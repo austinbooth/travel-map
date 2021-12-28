@@ -44,7 +44,6 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
       console.log('USERS:', users)
       const usersData = await Promise.all(users.map(async(user) => {
         const data = await getAllMediaForUser(user)
-        // const groupedData = groupMedia(data as MediaData[])
         return data
       }))
       setData(usersData.flat() as MediaData[])
