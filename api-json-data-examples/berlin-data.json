@@ -1,0 +1,61 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2487,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 52.6755087,
+                  "lng": 13.7611609
+              },
+              "southwest": {
+                  "lat": 52.3382448,
+                  "lng": 13.088345
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "DE",
+              "ISO_3166-1_alpha-3": "DEU",
+              "_category": "place",
+              "_type": "city",
+              "city": "Berlin",
+              "continent": "Europe",
+              "country": "Germany",
+              "country_code": "de",
+              "political_union": "European Union",
+              "state": "Berlin",
+              "state_code": "BE"
+          },
+          "confidence": 2,
+          "formatted": "Berlin, Germany",
+          "geometry": {
+              "lat": 52.5170365,
+              "lng": 13.3888599
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:35:42 GMT",
+      "created_unix": 1640543742
+  },
+  "total_results": 1
+}

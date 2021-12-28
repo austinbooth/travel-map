@@ -8,6 +8,9 @@ import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
 import { getPlaceFromLatLng } from '../api'
 import { Timestamp as firestoreTimestamp, doc, setDoc, collection } from 'firebase/firestore'
+import { findMediaForLocationDataForUser } from '../firestoreUtils'
+import { mean } from 'lodash'
+import { ImageData, MediaDataProcessed } from '../types'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -42,7 +45,7 @@ const Upload: FC = () => {
         console.log('Uploaded:', imageUri)
 
         const { latitude, longitude } = await exifr.gps(selectedFile)
-        const { place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
+        const { geo_data, place_full, place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
         const thumbnail = await exifr.thumbnail(selectedFile)
         const r = await exifr.rotation(selectedFile)
 
@@ -55,17 +58,38 @@ const Upload: FC = () => {
         const thumbnailUri = firestoreFileRefThumbnail.toString()
         console.log('Uploaded thumbnail:', thumbnailUri)
 
-        const docRef = doc(collection(db, `users/${user.uid}`, 'media'))
+        const existingDbEntry = await findMediaForLocationDataForUser(user.uid, place_full) as MediaDataProcessed[]
+        console.log('User:', user.uid)
+        console.log('--> db entry:', existingDbEntry)
+        if (existingDbEntry.length > 1) {
+          throw new Error('More than 1 DB entry found.')
+        }
+        const docRef = existingDbEntry.length === 0 ?
+          doc(collection(db, `users/${user.uid}`, 'media'))
+            : doc(db, `users/${user.uid}/media`, existingDbEntry[0].uid)
+        
+        const images: ImageData[] = [
+          ...existingDbEntry[0]?.images ?? [],
+          {
+            imageUri,
+            thumbnailUri,
+            rotation: deg,
+            datetime: firestoreTimestamp.fromDate(datetime.toJSDate()),
+            latitude,
+            longitude,
+            geo_data,
+          }
+        ]
+  
         const dbEntity = {
+          user: user.uid,
           uid: docRef.id,
-          imageUri,
-          thumbnailUri,
-          rotation: deg,
-          datetime: firestoreTimestamp.fromDate(datetime.toJSDate()),
-          latitude,
-          longitude,
+          latitude: mean(images.map(image => image.latitude)),
+          longitude: mean(images.map(image => image.longitude)),
           place,
+          place_full,
           country,
+          images,
         }        
         await setDoc(docRef, dbEntity)
         setImageUploaded(true)

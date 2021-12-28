@@ -1,0 +1,63 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2491,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 53.129368,
+                  "lng": -1.088833
+              },
+              "southwest": {
+                  "lat": 53.108002,
+                  "lng": -1.140003
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "GB",
+              "ISO_3166-1_alpha-3": "GBR",
+              "_category": "place",
+              "_type": "city",
+              "continent": "Europe",
+              "country": "United Kingdom",
+              "country_code": "gb",
+              "county": "Nottinghamshire",
+              "county_code": "NTT",
+              "local_administrative_area": "Newark and Sherwood District",
+              "state": "England",
+              "state_code": "ENG",
+              "town": "Rainworth"
+          },
+          "confidence": 7,
+          "formatted": "Rainworth, Nottinghamshire, England, United Kingdom",
+          "geometry": {
+              "lat": 53.11883,
+              "lng": -1.11852
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:29:43 GMT",
+      "created_unix": 1640543383
+  },
+  "total_results": 1
+}

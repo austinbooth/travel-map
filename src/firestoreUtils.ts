@@ -1,4 +1,4 @@
-import { getDocs, collection, doc, setDoc } from 'firebase/firestore'
+import { getDocs, collection, doc, setDoc, query, where } from 'firebase/firestore'
 import { getDownloadURL, ref } from 'firebase/storage'
 import { db, storage } from './firebaseSingleton'
 
@@ -16,7 +16,13 @@ export const getAllUsers = async () => {
 export const getAllMediaForUser = async (uid: string) => {
   const querySnapshot = await getDocs(collection(db, `users/${uid}/media`))
   const { docs } = querySnapshot
-  return docs.map(doc => doc.data()).map(data => ({...data, user: uid}))
+  return docs.map(doc => doc.data())
+}
+
+export const findMediaForLocationDataForUser = async (uid: string, place_full: string) => {
+  const ref = collection(db, `users/${uid}/media`)
+  const { docs } = await getDocs(query(ref, where('place_full', '==', place_full)))
+  return docs.map(doc => doc.data())
 }
 
 export const getDownloadUrlFromUri = async (uri: string) => {

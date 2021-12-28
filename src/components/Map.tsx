@@ -42,12 +42,14 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
   useEffect(() => {
     void (async () => {
       const users = await getAllUsers()
+      console.log('USERS:', users)
       const usersData = await Promise.all(users.map(async(user) => {
         const data = await getAllMediaForUser(user)
-        const groupedData = groupMedia(data as MediaData[])
-        return groupedData
+        // const groupedData = groupMedia(data as MediaData[])
+        return data
       }))
-      setData(usersData.flat())
+      setData(usersData.flat() as MediaDataProcessed[])
+      console.log(usersData.flat())
     })()
   }, [])
   if (!data) {
