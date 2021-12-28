@@ -1,0 +1,64 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2484,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 53.4453662,
+                  "lng": -1.6865231
+              },
+              "southwest": {
+                  "lat": 53.4253662,
+                  "lng": -1.7065231
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "GB",
+              "ISO_3166-1_alpha-3": "GBR",
+              "_category": "place",
+              "_type": "hamlet",
+              "city": "Sheffield",
+              "continent": "Europe",
+              "country": "United Kingdom",
+              "country_code": "gb",
+              "locality": "Greenfield Howden",
+              "postcode": "S6 6JE",
+              "state": "England",
+              "state_code": "ENG",
+              "state_district": "Yorkshire and the Humber",
+              "suburb": "Bradfield"
+          },
+          "confidence": 8,
+          "formatted": "Sheffield, S6 6JE, United Kingdom",
+          "geometry": {
+              "lat": 53.4353662,
+              "lng": -1.6965231
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:51:37 GMT",
+      "created_unix": 1640544697
+  },
+  "total_results": 1
+}

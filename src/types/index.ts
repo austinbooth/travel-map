@@ -21,13 +21,13 @@ export interface MediaData {
 }
 
 export interface ImageData {
-  uid: string
   imageUri: string
   thumbnailUri : string
   rotation: number
   datetime: Timestamp
   latitude: number
   longitude: number
+  geo_data: Record<string, string | number>
 }
 export interface MediaDataProcessed {
   uid: Uid

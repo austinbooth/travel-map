@@ -1,0 +1,66 @@
+{
+  "documentation": "https://opencagedata.com/api",
+  "licenses": [
+      {
+          "name": "see attribution guide",
+          "url": "https://opencagedata.com/credits"
+      }
+  ],
+  "rate": {
+      "limit": 2500,
+      "remaining": 2483,
+      "reset": 1640563200
+  },
+  "results": [
+      {
+          "bounds": {
+              "northeast": {
+                  "lat": 52.9533578,
+                  "lng": -1.1389143
+              },
+              "southwest": {
+                  "lat": 52.9517071,
+                  "lng": -1.1403931
+              }
+          },
+          "components": {
+              "ISO_3166-1_alpha-2": "GB",
+              "ISO_3166-1_alpha-3": "GBR",
+              "_category": "outdoors/recreation",
+              "_type": "leisure",
+              "city": "Nottingham",
+              "continent": "Europe",
+              "country": "United Kingdom",
+              "country_code": "gb",
+              "leisure": "National Ice Centre",
+              "neighbourhood": "Lace Market",
+              "postcode": "NG1 1LA",
+              "road": "Bolero Square",
+              "state": "England",
+              "state_code": "ENG",
+              "state_district": "East Midlands",
+              "suburb": "St Ann's"
+          },
+          "confidence": 9,
+          "formatted": "National Ice Centre, Bolero Square, Nottingham, NG1 1LA, United Kingdom",
+          "geometry": {
+              "lat": 52.9525268,
+              "lng": -1.1394576
+          }
+      }
+  ],
+  "status": {
+      "code": 200,
+      "message": "OK"
+  },
+  "stay_informed": {
+      "blog": "https://blog.opencagedata.com",
+      "twitter": "https://twitter.com/OpenCage"
+  },
+  "thanks": "For using an OpenCage API",
+  "timestamp": {
+      "created_http": "Sun, 26 Dec 2021 18:55:36 GMT",
+      "created_unix": 1640544936
+  },
+  "total_results": 1
+}
