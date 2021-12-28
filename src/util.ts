@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 import { groupBy, omit, mean } from "lodash"
 import { v4 as uuid } from 'uuid'
-import { MediaData, MediaDataProcessed } from "./types"
+import { MediaData } from "./types"
 
 export const getDateFromFilename = (filename: string): DateTime => {
   const filenameWithOutExt = filename.slice(0, -4) // need a regex that can take care of multiple file formats
@@ -21,7 +21,7 @@ export const earliestDateTime = (date1: DateTime, date2: DateTime): DateTime => 
   return date1 <= date2 ? date1 : date2
 }
 
-export const getDateOrDateRange = (data: MediaDataProcessed) => {
+export const getDateOrDateRange = (data: MediaData) => {
   if (data.images.length === 0) { // should not happen
     return ''
   }

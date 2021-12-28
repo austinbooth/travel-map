@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { Timestamp } from 'firebase/firestore'
-import { MediaData, MediaDataProcessed } from '../types'
+import { MediaData } from '../types'
 
 export const s1Timestamp = Timestamp.fromDate(DateTime.now().minus({years: 1}).toJSDate())
 export const g1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 180}).toJSDate())
@@ -12,7 +12,7 @@ export const n3Timestamp_earliest = Timestamp.fromDate(DateTime.now().minus({day
 
 export const l1Timestamp = Timestamp.fromDate(DateTime.now().minus({days: 2}).toJSDate())
 
-export const processedData: MediaDataProcessed[] = [
+export const processedData: MediaData[] = [
   {
     uid: 'uid0',
     latitude: 53.427647,
