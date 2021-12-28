@@ -10,7 +10,7 @@ import { getPlaceFromLatLng } from '../api'
 import { Timestamp as firestoreTimestamp, doc, setDoc, collection } from 'firebase/firestore'
 import { findMediaForLocationDataForUser } from '../firestoreUtils'
 import { mean } from 'lodash'
-import { ImageData, MediaDataProcessed } from '../types'
+import { ImageData, MediaData } from '../types'
 
 const Upload: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -58,7 +58,7 @@ const Upload: FC = () => {
         const thumbnailUri = firestoreFileRefThumbnail.toString()
         console.log('Uploaded thumbnail:', thumbnailUri)
 
-        const existingDbEntry = await findMediaForLocationDataForUser(user.uid, place_full) as MediaDataProcessed[]
+        const existingDbEntry = await findMediaForLocationDataForUser(user.uid, place_full) as MediaData[]
         console.log('User:', user.uid)
         console.log('--> db entry:', existingDbEntry)
         if (existingDbEntry.length > 1) {
