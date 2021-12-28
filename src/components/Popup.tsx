@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
-import { MediaDataProcessed, Uid } from '../types'
+import { MediaData, Uid } from '../types'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
@@ -22,14 +22,14 @@ const boxStyle: SxProps = {
 
 interface Props {
   uid: Uid
-  data: MediaDataProcessed[]
+  data: MediaData[]
   setPopupInfo: (uid: string | null) => void
 }
 
 const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   const [thumbnailUrl, setThumbnailUrl] = useState<string>()
   const [imageUrls, setImageUrls] = useState<string[]>()
-  const [info, setInfo] = useState<MediaDataProcessed>()
+  const [info, setInfo] = useState<MediaData>()
   const [openModal, setOpenModal] = useState(false)
 
   const handleOpenModal = () => setOpenModal(true)
