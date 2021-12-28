@@ -5,7 +5,6 @@ import greenPin from "../images/green-pin.png"
 import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
-import { groupMedia } from "../util"
 import { MediaData, MediaDataProcessed } from "../types"
 
 // Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:

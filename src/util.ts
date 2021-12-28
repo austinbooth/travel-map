@@ -21,27 +21,6 @@ export const earliestDateTime = (date1: DateTime, date2: DateTime): DateTime => 
   return date1 <= date2 ? date1 : date2
 }
 
-export const groupMedia = (data: MediaData[]) => {
-  const user = data[0].user
-  if (data.find(item => item.user !== user)) { // should not happen
-    throw new Error('Not all items are for the same user')
-  }
-  const grouped = groupBy(data, 'place')
-  
-  const processed = Object.keys(grouped)
-    .map(locationName => ({ place: locationName, images: grouped[locationName]}))
-    .map((location) => ({
-      ...location,
-      uid: uuid(),
-      user,
-      latitude: mean(location.images.map(l => l.latitude)),
-      longitude: mean(location.images.map(l => l.longitude)),
-      country: location.images[0].country,
-      images: location.images.map(imageData => omit(imageData, ['place', 'country', 'user']))
-    }))
-  return processed
-}
-
 export const getDateOrDateRange = (data: MediaDataProcessed) => {
   if (data.images.length === 0) { // should not happen
     return ''
