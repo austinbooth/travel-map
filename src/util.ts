@@ -1,6 +1,4 @@
 import { DateTime } from "luxon"
-import { groupBy, omit, mean } from "lodash"
-import { v4 as uuid } from 'uuid'
 import { MediaData } from "./types"
 
 export const getDateFromFilename = (filename: string): DateTime => {
