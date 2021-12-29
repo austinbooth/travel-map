@@ -26,6 +26,10 @@ const Upload: FC = () => {
       setUploading(false)
     }
   }, [numberUploaded, selectedFiles?.length])
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => console.log(position.coords))
+  }, [])
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -60,9 +64,9 @@ const Upload: FC = () => {
           if (!imageUrl) {
             throw new Error('Could not get uploaded image url.')
           }
-          const { latitude, longitude } = await exifr.gps(imageUrl)
+          const { latitude, longitude } = await exifr.gps(selectedFile)
 
-          const data = await exifr.parse(imageUrl, true)
+          const data = await exifr.parse(selectedFile, true)
           setCoords(data)
 
 
