@@ -26,10 +26,6 @@ const Upload: FC = () => {
       setUploading(false)
     }
   }, [numberUploaded, selectedFiles?.length])
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => console.log(position.coords))
-  }, [])
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -131,7 +127,7 @@ const Upload: FC = () => {
       <input
         type='file'
         multiple
-        accept="image/*"
+        // accept="image/*"
         onChange={handleChange}
         disabled={uploading}
         style={{width: 'fit-content'}}
