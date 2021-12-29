@@ -125,9 +125,10 @@ const Upload: FC = () => {
   return (
     <div>
       <input
-        type='file'
+        type='image'
         multiple
-        // accept="image/*"
+        accept="image/*"
+        contextMenu=''
         onChange={handleChange}
         disabled={uploading}
         style={{width: 'fit-content'}}
