@@ -17,6 +17,8 @@ const Upload: FC = () => {
   const [uploading, setUploading] = useState(false)
   const [numberUploaded, setNumberUploaded] = useState(0)
 
+  const [coords, setCoords] = useState<any>()
+
   const incrementNumberUploaded = () => setNumberUploaded(current => current + 1)
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const Upload: FC = () => {
           console.log('Uploaded:', imageUri)
 
           const { latitude, longitude } = await exifr.gps(selectedFile)
+          setCoords({latitude, longitude})
           const { geo_data, place_full, place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
           const thumbnail = await exifr.thumbnail(selectedFile)
           const r = await exifr.rotation(selectedFile)
@@ -131,6 +134,7 @@ const Upload: FC = () => {
       {numberUploaded > 0 && numberUploaded === selectedFiles?.length && (
         <p>Your image(s) has been uploaded.</p>
       )}
+      {coords && <p>{JSON.stringify(coords)}</p>}
     </div>
   )
 }
