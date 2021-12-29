@@ -57,7 +57,11 @@ const Upload: FC = () => {
           console.log('Uploaded:', imageUri)
 
           const { latitude, longitude } = await exifr.gps(selectedFile)
-          setCoords({latitude, longitude})
+
+          const data = exifr.parse(selectedFile)
+          setCoords(data)
+
+
           const { geo_data, place_full, place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
           const thumbnail = await exifr.thumbnail(selectedFile)
           const r = await exifr.rotation(selectedFile)
