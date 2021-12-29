@@ -23,7 +23,7 @@ const Upload: FC = () => {
     if (numberUploaded === selectedFiles?.length) {
       setUploading(false)
     }
-  }, [numberUploaded])
+  }, [numberUploaded, selectedFiles?.length])
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
