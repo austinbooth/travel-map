@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from 'react'
+import { FC, useState, ChangeEvent, useEffect } from 'react'
 import { ref, uploadBytes } from 'firebase/storage'
 import { getAuth } from 'firebase/auth'
 import { storage, db } from '../firebaseSingleton'
@@ -15,20 +15,29 @@ import { ImageData, MediaData } from '../types'
 const Upload: FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>()
   const [uploading, setUploading] = useState(false)
-  const [imageUploaded, setImageUploaded] = useState(false)
+  const [numberUploaded, setNumberUploaded] = useState(0)
+
+  const incrementNumberUploaded = () => setNumberUploaded(current => current + 1)
+
+  useEffect(() => {
+    if (numberUploaded === selectedFiles?.length) {
+      setUploading(false)
+    }
+  }, [numberUploaded])
   
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files)
       setSelectedFiles(files)
+      setNumberUploaded(0)
     }
   }
   
   const uploadFile = () => {
     if (selectedFiles) {
       try {
+        setUploading(true)
         selectedFiles.forEach(async (selectedFile) => {
-          setUploading(true)
           const user = getAuth().currentUser
           if (!user) {
             throw new Error('User not logged in')
@@ -93,11 +102,10 @@ const Upload: FC = () => {
             images,
           }        
           await setDoc(docRef, dbEntity)
+          incrementNumberUploaded()
         })
-        setImageUploaded(true)
       } catch (err) {
         console.error(err)
-      } finally {
         setUploading(false)
       }
     }
@@ -114,8 +122,14 @@ const Upload: FC = () => {
         style={{width: 'fit-content'}}
       />
       <button onClick={uploadFile} disabled={uploading}>Upload</button>
-      {imageUploaded && (
-        <p>Your image has been uploaded.</p>
+      {uploading && (
+        <>
+          <p>Uploading...</p>
+          <progress max={selectedFiles?.length} value={numberUploaded} />
+        </>
+      )}
+      {numberUploaded > 0 && numberUploaded === selectedFiles?.length && (
+        <p>Your image(s) has been uploaded.</p>
       )}
     </div>
   )
