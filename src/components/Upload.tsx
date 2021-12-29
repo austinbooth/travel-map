@@ -8,7 +8,7 @@ import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from '../util'
 import { getPlaceFromLatLng } from '../api'
 import { Timestamp as firestoreTimestamp, doc, setDoc, collection } from 'firebase/firestore'
-import { findMediaForLocationDataForUser } from '../firestoreUtils'
+import { findMediaForLocationDataForUser, getDownloadUrlFromUri } from '../firestoreUtils'
 import { mean } from 'lodash'
 import { ImageData, MediaData } from '../types'
 
@@ -56,9 +56,13 @@ const Upload: FC = () => {
           const imageUri = firestoreFileRef.toString()
           console.log('Uploaded:', imageUri)
 
-          const { latitude, longitude } = await exifr.gps(selectedFile)
+          const imageUrl = await getDownloadUrlFromUri(imageUri)
+          if (!imageUrl) {
+            throw new Error('Could not get uploaded image url.')
+          }
+          const { latitude, longitude } = await exifr.gps(imageUrl)
 
-          const data = await exifr.parse(selectedFile, true)
+          const data = await exifr.parse(imageUrl, true)
           setCoords(data)
 
 
