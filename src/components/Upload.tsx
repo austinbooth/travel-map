@@ -58,7 +58,7 @@ const Upload: FC = () => {
 
           const { latitude, longitude } = await exifr.gps(selectedFile)
 
-          const data = exifr.parse(selectedFile)
+          const data = await exifr.parse(selectedFile)
           setCoords(data)
 
 
