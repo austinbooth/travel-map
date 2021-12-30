@@ -32,8 +32,6 @@ interface LocationDataWithCoords extends LocationData {
   lng: number
 }
 
-// interface FileDetailsWithLocationData
-
 const Upload: FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>()
   const [uploading, setUploading] = useState(false)
@@ -141,6 +139,8 @@ const Upload: FC = () => {
   const saveImageToFirestoreWithUserAddedLocation = async (data: ImageDataForSavingToFirestore) => {
     console.log('location submitted')
     await setOrUpdateImageForLocationInFirestore(data)
+    setFilesWithoutLocation(files => files.slice(1))
+    setLocationDataForUserConfirmation(undefined)
     incrementNumberUploaded()
   }
 
