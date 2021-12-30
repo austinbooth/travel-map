@@ -25,3 +25,11 @@ export interface MediaData {
   country: string
   images: ImageData[]
 }
+
+export interface ImageDataForSavingToFirestore {
+  userUid: string
+  place_full: string
+  imageData: ImageData
+  place: string
+  country: string
+}
