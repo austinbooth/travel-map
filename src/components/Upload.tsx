@@ -39,7 +39,6 @@ const Upload: FC = () => {
   const [filesWithoutLocation, setFilesWithoutLocation] = useState<ImageDataWithoutLocation[]>([])
   const [userEnteredLocation, setUserEnteredLocation] = useState<string>('')
   const [locationDataForUserConfirmation, setLocationDataForUserConfirmation] = useState<LocationDataWithCoords>()
-  const [filesWithLocationAdded, setFilesWithLocationAdded] = useState<ImageDataForSavingToFirestore[]>([])
   const [timeoutRef, setTimeoutRef] = useState<NodeJS.Timeout>()
 
   const user = getAuth().currentUser
@@ -167,23 +166,19 @@ const Upload: FC = () => {
       {filesWithoutLocation.length > 0 && (
         <>
           <p>The files(s) below do not have a location.</p>
-          {[filesWithoutLocation[0]].map((file: ImageDataWithoutLocation) => (
-            <>
-              <img
-                key={file.thumbnailUrl}
-                src={file.thumbnailUrl}
-                alt={file.filename}
-                style={{
-                  transform: `rotate(${file.rotation}deg)`,
-                  height: '200px'
-                }}
-              />
-              <input
-                type='text'
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setUserEnteredLocation(e.currentTarget.value)}
-              />
-            </>
-            ))}
+          <img
+            key={filesWithoutLocation[0].thumbnailUrl}
+            src={filesWithoutLocation[0].thumbnailUrl}
+            alt={filesWithoutLocation[0].filename}
+            style={{
+              transform: `rotate(${filesWithoutLocation[0].rotation}deg)`,
+              height: '200px'
+            }}
+          />
+          <input
+            type='text'
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setUserEnteredLocation(e.currentTarget.value)}
+          />
         </>
       )}
       {locationDataForUserConfirmation && (
