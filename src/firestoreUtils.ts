@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 import { mean } from 'lodash'
 import * as exifr from 'exifr'
 import { getDateFromFilename, earliestDateTime } from './util'
-import { ImageData, MediaData } from './types'
+import { ImageData, MediaData, ImageDataForSavingToFirestore } from './types'
 import { User } from 'firebase/auth'
 
 export const addNewUserToFirestore = async (uid: string) => {
@@ -63,15 +63,7 @@ export const setImageAndThumbnailInFirestorage = async (
   return { imageUri, thumbnailUri }
 }
 
-interface setOrUpdateImageForLocationInFirestoreProps {
-  userUid: string
-  place_full: string
-  imageData: ImageData
-  place: string
-  country: string
-}
-
-export const setOrUpdateImageForLocationInFirestore = async (data: setOrUpdateImageForLocationInFirestoreProps) => {
+export const setOrUpdateImageForLocationInFirestore = async (data: ImageDataForSavingToFirestore) => {
   const { userUid, place_full, place, country } = data
   const existingDbEntry = await findMediaForLocationDataForUser(userUid, place_full) as MediaData[]
   if (existingDbEntry.length > 1) {
