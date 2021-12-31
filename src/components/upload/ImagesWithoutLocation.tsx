@@ -26,24 +26,33 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   const [userEnteredLocation, setUserEnteredLocation] = useState<string>('')
   const [locationDataForUserConfirmation, setLocationDataForUserConfirmation] = useState<LocationDataWithCoords>()
   const [timeoutRef, setTimeoutRef] = useState<NodeJS.Timeout>()
+  const [locationError, setLocationError] = useState('')
 
   const user = getAuth().currentUser
   if (!user) {
     throw new Error('User not logged in')
   }
 
-
   const getLocationData = async () => {
     console.log('user stopped entering location...')
     if (userEnteredLocation) {
-      const coords = await getLatLngFromName(userEnteredLocation)
-      console.log(coords)
-      const locationData: LocationData = await getPlaceFromLatLng(coords)
-      console.log(locationData.place, locationData.place_full, locationData.country)
-      setLocationDataForUserConfirmation({...locationData, ...coords})
+      try {
+        const coords = await getLatLngFromName(userEnteredLocation)
+        console.log(coords)
+        const locationData: LocationData = await getPlaceFromLatLng(coords)
+        console.log(locationData.place, locationData.place_full, locationData.country)
+        setLocationDataForUserConfirmation({...locationData, ...coords})
+      } catch (err) {
+        console.error(err)
+        setLocationError('Could not find location, please check spelling.')
+      }
     }
   }
   useEffect(() => {
+    setLocationDataForUserConfirmation(undefined)
+    if (locationError) {
+      setLocationError('')
+    }
     if (timeoutRef) {
       clearTimeout(timeoutRef)
     }
@@ -75,6 +84,7 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
             type='text'
             onChange={(e: ChangeEvent<HTMLInputElement>) => setUserEnteredLocation(e.currentTarget.value)}
           />
+          {locationError && <p>{locationError}</p>}
         </>
       )}
       {locationDataForUserConfirmation && (
