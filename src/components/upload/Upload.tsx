@@ -1,15 +1,15 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react'
 import { getAuth } from 'firebase/auth'
 import * as exifr from 'exifr'
-import { getPlaceFromLatLng, getLatLngFromName } from '../api'
+import { getPlaceFromLatLng, getLatLngFromName } from '../../api'
 import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
 import {
   getDateTimeForFile, getThumbnailAndRotationForFile,
   setImageAndThumbnailInFirestorage, setOrUpdateImageForLocationInFirestore,
   getDownloadUrlFromUri
-} from '../firestoreUtils'
+} from '../../firestoreUtils'
 import { DateTime } from 'luxon'
-import { ImageDataForSavingToFirestore } from '../types'
+import { ImageDataForSavingToFirestore } from '../../types'
 
 interface ImageDataWithoutLocation {
   datetime: DateTime

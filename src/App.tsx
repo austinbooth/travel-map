@@ -10,7 +10,7 @@ import { auth } from './firebaseSingleton'
 import Home from "./components/Home"
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
-import Upload from "./components/Upload"
+import Upload from "./components/upload/Upload"
 import { User } from './types'
 
 const App = () => {
