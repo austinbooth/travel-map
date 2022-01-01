@@ -10,6 +10,7 @@ import {
 import ImagesWithoutLocation from './ImagesWithoutLocation'
 import getAuthUser from '../../services/getAuthUser'
 import { ImageDataWithoutLocation } from './uploadTypes'
+import ChooseFilesButton from './ChooseFilesButton'
 
 const Upload: FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>()
@@ -88,14 +89,7 @@ const Upload: FC = () => {
 
   return (
     <div>
-      <input
-        type='file'
-        multiple
-        accept="image/*"
-        onChange={selectFiles}
-        disabled={uploading}
-        style={{width: 'fit-content'}}
-      />
+      <ChooseFilesButton selectFiles={selectFiles} disabled={uploading} />
       <button onClick={uploadFile} disabled={uploading}>Upload</button>
       {uploading && (
         <>
