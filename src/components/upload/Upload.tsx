@@ -26,7 +26,6 @@ const Upload: FC = () => {
     }
   }, [numberUploaded, selectedFiles?.length])
 
-  
   const selectFiles = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files)
@@ -42,14 +41,12 @@ const Upload: FC = () => {
         selectedFiles.forEach(async (selectedFile) => {
           const datetime = getDateTimeForFile(selectedFile)
           const { thumbnail, rotation} = await getThumbnailAndRotationForFile(selectedFile)
-          
           const {
             imageUri,
             thumbnailUri
           } = await setImageAndThumbnailInFirestorage(user, datetime, selectedFile, thumbnail)
-          
-          const { latitude, longitude } = await exifr.gps(selectedFile)
 
+          const { latitude, longitude } = await exifr.gps(selectedFile)
           if (latitude && longitude) {
             const { geo_data, place_full, place, country } = await getPlaceFromLatLng({lat: latitude, lng: longitude})
             await setOrUpdateImageForLocationInFirestore({
