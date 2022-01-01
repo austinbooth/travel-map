@@ -12,6 +12,7 @@ import getAuthUser from '../../services/getAuthUser'
 import { ImageDataWithoutLocation } from './uploadTypes'
 import ChooseFilesButton from './ChooseFilesButton'
 import Uploading from './Uploading'
+import FinishedUploading from './FinishedUploading'
 
 const Upload: FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>()
@@ -93,9 +94,7 @@ const Upload: FC = () => {
       <ChooseFilesButton selectFiles={selectFiles} disabled={uploading} />
       <button onClick={uploadFile} disabled={uploading}>Upload</button>
       {uploading && selectedFiles?.length && <Uploading max={selectedFiles.length} value={numberUploaded} />}
-      {numberUploaded > 0 && numberUploaded === selectedFiles?.length && (
-        <p>Your image(s) has been uploaded.</p>
-      )}
+      {numberUploaded > 0 && numberUploaded === selectedFiles?.length && <FinishedUploading />}
       {!uploading && filesWithoutLocation.length > 0 && <ImagesWithoutLocation imageData={filesWithoutLocation} />}
     </div>
   )
