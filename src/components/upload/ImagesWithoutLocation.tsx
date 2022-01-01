@@ -48,7 +48,7 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   
   const saveImageToFirestoreWithUserAddedLocation = async () => {
     if (locationDataForUserConfirmation) {
-      const dataToSave = {
+      const dataToSave: ImageDataForSavingToFirestore = {
         userUid: user.uid,
         place: locationDataForUserConfirmation.place,
         place_full: locationDataForUserConfirmation.place_full,
@@ -75,7 +75,7 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
     <div>
       {filesWithoutLocation.length > 0 && (
         <>
-          <p>The files(s) below do not have a location.</p>
+          <p>The file below does not have a location.</p>
           <ThumbnailImage
             url={filesWithoutLocation[0].thumbnailUrl}
             alt={filesWithoutLocation[0].filename}
