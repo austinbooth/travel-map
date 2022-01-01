@@ -7,6 +7,7 @@ import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
 import { compact } from 'lodash'
 import { getDateOrDateRange } from '../util'
+import ThumbnailImage from './ThumbnailImage'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -68,14 +69,13 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
         <p className='popup-place-heading'>{info.place}</p>
         <p className='popup-info'>{dateOrDateRange}</p>
         {thumbnailUrl && (
-          <img
-            src={thumbnailUrl}
+          <ThumbnailImage
+            url={thumbnailUrl}
             alt={info.place}
-            style={{
-              transform: `rotate(${info.images[0].rotation}deg)`,
-              height: '50px'
-            }}
-          />)}
+            rotation={info.images[0].rotation}
+            height={50}
+          />
+        )}
       </div>
       <Modal
         open={openModal}

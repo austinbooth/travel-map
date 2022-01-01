@@ -5,6 +5,7 @@ import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
 import { setOrUpdateImageForLocationInFirestore } from '../../firestoreUtils'
 import { ImageDataForSavingToFirestore } from '../../types'
 import { ImageDataWithoutLocation, LocationData, LocationDataWithCoords } from './uploadTypes'
+import ThumbnailImage from '../ThumbnailImage'
 
 interface Props {
   imageData: ImageDataWithoutLocation[]
@@ -75,14 +76,11 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
       {filesWithoutLocation.length > 0 && (
         <>
           <p>The files(s) below do not have a location.</p>
-          <img
-            key={filesWithoutLocation[0].thumbnailUrl}
-            src={filesWithoutLocation[0].thumbnailUrl}
+          <ThumbnailImage
+            url={filesWithoutLocation[0].thumbnailUrl}
             alt={filesWithoutLocation[0].filename}
-            style={{
-              transform: `rotate(${filesWithoutLocation[0].rotation}deg)`,
-              height: '200px'
-            }}
+            rotation={filesWithoutLocation[0].rotation}
+            height={200}
           />
           <input
             type='text'
