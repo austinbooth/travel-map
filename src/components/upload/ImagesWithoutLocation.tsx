@@ -1,14 +1,8 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react'
 import { getAuth } from 'firebase/auth'
-import * as exifr from 'exifr'
 import { getPlaceFromLatLng, getLatLngFromName } from '../../api'
 import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
-import {
-  getDateTimeForFile, getThumbnailAndRotationForFile,
-  setImageAndThumbnailInFirestorage, setOrUpdateImageForLocationInFirestore,
-  getDownloadUrlFromUri
-} from '../../firestoreUtils'
-import { DateTime } from 'luxon'
+import { setOrUpdateImageForLocationInFirestore } from '../../firestoreUtils'
 import { ImageDataForSavingToFirestore } from '../../types'
 import { ImageDataWithoutLocation, LocationData } from './Upload'
 
@@ -32,7 +26,17 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   if (!user) {
     throw new Error('User not logged in')
   }
-
+  useEffect(() => {
+    setLocationDataForUserConfirmation(undefined)
+    if (locationError) {
+      setLocationError('')
+    }
+    if (timeoutRef) {
+      clearTimeout(timeoutRef)
+    }
+    setTimeoutRef(setTimeout(getLocationData, 500))
+  }, [userEnteredLocation])
+  
   const getLocationData = async () => {
     console.log('user stopped entering location...')
     if (userEnteredLocation) {
@@ -48,16 +52,6 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
       }
     }
   }
-  useEffect(() => {
-    setLocationDataForUserConfirmation(undefined)
-    if (locationError) {
-      setLocationError('')
-    }
-    if (timeoutRef) {
-      clearTimeout(timeoutRef)
-    }
-    setTimeoutRef(setTimeout(getLocationData, 500))
-  }, [userEnteredLocation])
   
   const saveImageToFirestoreWithUserAddedLocation = async (data: ImageDataForSavingToFirestore) => {
     console.log('location submitted')
