@@ -1,11 +1,11 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react'
-import { getAuth } from 'firebase/auth'
 import { getPlaceFromLatLng, getLatLngFromName } from '../../api'
 import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
 import { setOrUpdateImageForLocationInFirestore } from '../../firestoreUtils'
 import { ImageDataForSavingToFirestore } from '../../types'
 import { ImageDataWithoutLocation, LocationData, LocationDataWithCoords } from './uploadTypes'
 import ThumbnailImage from '../ThumbnailImage'
+import getAuthUser from '../../services/getAuthUser'
 
 interface Props {
   imageData: ImageDataWithoutLocation[]
@@ -18,10 +18,7 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   const [timeoutRef, setTimeoutRef] = useState<NodeJS.Timeout>()
   const [locationError, setLocationError] = useState('')
 
-  const user = getAuth().currentUser
-  if (!user) {
-    throw new Error('User not logged in')
-  }
+  const user = getAuthUser()
   useEffect(() => {
     setLocationDataForUserConfirmation(undefined)
     if (locationError) {

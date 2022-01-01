@@ -1,5 +1,4 @@
 import { FC, useState, ChangeEvent, useEffect } from 'react'
-import { getAuth } from 'firebase/auth'
 import * as exifr from 'exifr'
 import { getPlaceFromLatLng } from '../../api'
 import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
@@ -9,6 +8,7 @@ import {
   getDownloadUrlFromUri
 } from '../../firestoreUtils'
 import ImagesWithoutLocation from './ImagesWithoutLocation'
+import getAuthUser from '../../services/getAuthUser'
 import { ImageDataWithoutLocation } from './uploadTypes'
 
 const Upload: FC = () => {
@@ -17,15 +17,8 @@ const Upload: FC = () => {
   const [numberUploaded, setNumberUploaded] = useState(0)
   const [filesWithoutLocation, setFilesWithoutLocation] = useState<ImageDataWithoutLocation[]>([])
 
-  const user = getAuth().currentUser
-  if (!user) {
-    throw new Error('User not logged in')
-  }
-
+  const user = getAuthUser()
   const incrementNumberUploaded = () => setNumberUploaded(current => current + 1)
-  const addFileWithoutLocation = (
-    dataToAdd: ImageDataWithoutLocation
-  ) => setFilesWithoutLocation((current: ImageDataWithoutLocation[]) => [...current, {...dataToAdd}])
 
   useEffect(() => {
     if (numberUploaded === selectedFiles?.length) {
@@ -85,7 +78,7 @@ const Upload: FC = () => {
               thumbnailUrl,
               filename: selectedFile.name
             }
-            addFileWithoutLocation(imageDataWithoutLocation)
+            setFilesWithoutLocation((current: ImageDataWithoutLocation[]) => [...current, {...imageDataWithoutLocation}])
             incrementNumberUploaded()
           }
         })
