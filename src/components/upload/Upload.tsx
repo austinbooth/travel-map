@@ -8,24 +8,8 @@ import {
   setImageAndThumbnailInFirestorage, setOrUpdateImageForLocationInFirestore,
   getDownloadUrlFromUri
 } from '../../firestoreUtils'
-import { DateTime } from 'luxon'
 import ImagesWithoutLocation from './ImagesWithoutLocation'
-
-export interface ImageDataWithoutLocation {
-  datetime: DateTime
-  imageUri: string
-  thumbnailUri: string
-  thumbnailUrl: string
-  rotation: number
-  filename: string
-}
-
-export interface LocationData {
-  geo_data: Record<string, string | number>
-  place: string
-  place_full: string
-  country: string
-}
+import { ImageDataWithoutLocation } from './uploadTypes'
 
 const Upload: FC = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>()

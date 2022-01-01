@@ -4,12 +4,7 @@ import { getPlaceFromLatLng, getLatLngFromName } from '../../api'
 import { Timestamp as firestoreTimestamp } from 'firebase/firestore'
 import { setOrUpdateImageForLocationInFirestore } from '../../firestoreUtils'
 import { ImageDataForSavingToFirestore } from '../../types'
-import { ImageDataWithoutLocation, LocationData } from './Upload'
-
-interface LocationDataWithCoords extends LocationData {
-  lat: number
-  lng: number
-}
+import { ImageDataWithoutLocation, LocationData, LocationDataWithCoords } from './uploadTypes'
 
 interface Props {
   imageData: ImageDataWithoutLocation[]
