@@ -33,13 +33,10 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   }, [userEnteredLocation])
   
   const getLocationData = async () => {
-    console.log('user stopped entering location...')
     if (userEnteredLocation) {
       try {
         const coords = await getLatLngFromName(userEnteredLocation)
-        console.log(coords)
         const locationData: LocationData = await getPlaceFromLatLng(coords)
-        console.log(locationData.place, locationData.place_full, locationData.country)
         setLocationDataForUserConfirmation({...locationData, ...coords})
       } catch (err) {
         console.error(err)
@@ -48,11 +45,29 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
     }
   }
   
-  const saveImageToFirestoreWithUserAddedLocation = async (data: ImageDataForSavingToFirestore) => {
-    console.log('location submitted')
-    await setOrUpdateImageForLocationInFirestore(data)
-    setFilesWithoutLocation(files => files.slice(1))
-    setLocationDataForUserConfirmation(undefined)
+  const saveImageToFirestoreWithUserAddedLocation = async () => {
+    if (locationDataForUserConfirmation) {
+      const dataToSave = {
+        userUid: user.uid,
+        place: locationDataForUserConfirmation.place,
+        place_full: locationDataForUserConfirmation.place_full,
+        country: locationDataForUserConfirmation.country,
+        imageData: {
+          geo_data: locationDataForUserConfirmation.geo_data,
+          datetime: firestoreTimestamp.fromDate(filesWithoutLocation[0].datetime.toJSDate()),
+          imageUri: filesWithoutLocation[0].imageUri,
+          thumbnailUri: filesWithoutLocation[0].thumbnailUri,
+          rotation: filesWithoutLocation[0].rotation,
+          latitude: locationDataForUserConfirmation.lat,
+          longitude: locationDataForUserConfirmation.lng,
+        },
+      }
+      await setOrUpdateImageForLocationInFirestore(dataToSave)
+      setFilesWithoutLocation(files => files.slice(1))
+      setLocationDataForUserConfirmation(undefined)
+    } else {
+      setLocationError('Can not save, missing location data') // should not happen 
+    }
   }
 
   return (
@@ -79,25 +94,7 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
       {locationDataForUserConfirmation && (
         <>
           <p>{locationDataForUserConfirmation.place_full}</p>
-          <button
-            onClick={
-              () => saveImageToFirestoreWithUserAddedLocation({
-                userUid: user.uid,
-                place: locationDataForUserConfirmation.place,
-                place_full: locationDataForUserConfirmation.place_full,
-                country: locationDataForUserConfirmation.country,
-                imageData: {
-                  geo_data: locationDataForUserConfirmation.geo_data,
-                  datetime: firestoreTimestamp.fromDate(filesWithoutLocation[0].datetime.toJSDate()),
-                  imageUri: filesWithoutLocation[0].imageUri,
-                  thumbnailUri: filesWithoutLocation[0].thumbnailUri,
-                  rotation: filesWithoutLocation[0].rotation,
-                  latitude: locationDataForUserConfirmation.lat,
-                  longitude: locationDataForUserConfirmation.lng,
-                },
-              })
-            }
-          >
+          <button onClick={saveImageToFirestoreWithUserAddedLocation}>
             Use this location
           </button>
         </>
