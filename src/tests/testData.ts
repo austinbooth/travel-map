@@ -18,6 +18,7 @@ export const processedData: MediaData[] = [
     latitude: 53.427647,
     longitude: -1.70495,
     place: "Sheffield",
+    place_full: '',
     country: "United Kingdom",
     user: 'U1',
     images: [
@@ -28,7 +29,7 @@ export const processedData: MediaData[] = [
         datetime: s1Timestamp,
         latitude: 53.427647,
         longitude: -1.70495,
-        geo_data: {}
+        geo_data: { components: {}}
       }
     ]
   },
@@ -38,6 +39,7 @@ export const processedData: MediaData[] = [
     latitude: (57.981414 + 57.98196897) / 2,
     longitude: (-3.942469 + -3.94452397) / 2,
     place: "Golspie",
+    place_full: '',
     user: 'U1',
     images: [
       {
@@ -47,7 +49,7 @@ export const processedData: MediaData[] = [
         datetime: g1Timestamp,
         latitude: 57.981414,
         longitude: -3.942469,
-        geo_data: {}
+        geo_data: { components: {}}
       },
       {
         imageUri: "gs://golspie-2",
@@ -56,7 +58,7 @@ export const processedData: MediaData[] = [
         datetime: g2Timestamp,
         latitude: 57.98196897,
         longitude: -3.94452397,
-        geo_data: {}
+        geo_data: { components: {}}
       }
     ]
   },
@@ -66,6 +68,7 @@ export const processedData: MediaData[] = [
     latitude: 52.9548,
     longitude: -1.1581,
     place: "Nottingham",
+    place_full: '',
     user: 'U1',
     images: [
       {
@@ -75,7 +78,7 @@ export const processedData: MediaData[] = [
         datetime: n1Timestamp,
         latitude: 52.9548,
         longitude: -1.1581,
-        geo_data: {}
+        geo_data: { components: {}}
       },
       {
         imageUri: "gs://nottingham-2",
@@ -84,7 +87,7 @@ export const processedData: MediaData[] = [
         datetime: n2Timestamp_latest,
         latitude: 52.9548,
         longitude: -1.1581,
-        geo_data: {}
+        geo_data: { components: {}}
       },
       {
         imageUri: "gs://nottingham-3",
@@ -93,7 +96,7 @@ export const processedData: MediaData[] = [
         datetime: n3Timestamp_earliest,
         latitude: 52.9548,
         longitude: -1.1581,
-        geo_data: {}
+        geo_data: { components: {}}
       },
     ]
   },
@@ -103,6 +106,7 @@ export const processedData: MediaData[] = [
     latitude: 51.5072,
     longitude: -0.1276,
     place: "London",
+    place_full: '',
     user: 'U1',
     images: [
       {
@@ -112,7 +116,7 @@ export const processedData: MediaData[] = [
         datetime: l1Timestamp,
         latitude: 51.5072,
         longitude: -0.1276,
-        geo_data: {}
+        geo_data: { components: {}}
       },
       {
         imageUri: "gs://london-2",
@@ -121,7 +125,7 @@ export const processedData: MediaData[] = [
         datetime: l1Timestamp,
         latitude: 51.5072,
         longitude: -0.1276, 
-        geo_data: {}
+        geo_data: { components: {}}
       },
     ]
   }

@@ -10,7 +10,9 @@ export interface ImageDataWithoutLocation {
 }
 
 export interface LocationData {
-  geo_data: Record<string, string | number>
+  geo_data: {
+    components: Record<string, string | number>
+  }
   place: string
   place_full: string
   country: string
