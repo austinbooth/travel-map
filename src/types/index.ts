@@ -14,7 +14,9 @@ export interface ImageData {
   datetime: Timestamp
   latitude: number
   longitude: number
-  geo_data: Record<string, string | number>
+  geo_data: {
+    components: Record<string, string | number>
+  }
 }
 export interface MediaData {
   uid: Uid
@@ -22,6 +24,7 @@ export interface MediaData {
   latitude: number
   longitude: number
   place: string
+  place_full: string
   country: string
   images: ImageData[]
 }
