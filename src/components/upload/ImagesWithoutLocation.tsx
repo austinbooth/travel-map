@@ -21,15 +21,14 @@ const ImagesWithoutLocation: FC<Props> = ({imageData}) => {
   const user = getAuthUser()
   useEffect(() => {
     setLocationDataForUserConfirmation(undefined)
-    if (locationError) {
-      setLocationError('')
-    }
+    setLocationError('')
     if (timeoutRef) {
       clearTimeout(timeoutRef)
     }
     setTimeoutRef(setTimeout(getLocationData, 500))
+    // eslint-disable-next-line
   }, [userEnteredLocation])
-  
+
   const getLocationData = async () => {
     if (userEnteredLocation) {
       try {

@@ -68,7 +68,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
       }
       setEditLocation(info.place)
     })()
-  },[data, uid])
+  },[data, uid, user.uid])
 
   const setPlace = async () => {
     if (info && editLocation) {
