@@ -1,4 +1,4 @@
-import { getDocs, collection, doc, setDoc, query, where } from 'firebase/firestore'
+import { getDocs, collection, doc, setDoc, query, where, getDoc } from 'firebase/firestore'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { db, storage } from './firebaseSingleton'
 import { DateTime } from 'luxon'
@@ -111,4 +111,14 @@ export const getDateTimeForFile = (selectedFile: File) => {
   const datetimeFromFile = DateTime.fromMillis(selectedFile.lastModified).toUTC()
   const datetime = earliestDateTime(datetimeFromFilename, datetimeFromFile)
   return datetime
+}
+
+export const setPlaceInFirestore = async (user: string, uid: string, place: string) => {
+  const docRef = doc(db, `users/${user}/media`, uid)
+  const existingDbEntry = (await getDoc(docRef)).data() as MediaData
+  const updatedData = {
+    ...existingDbEntry,
+    place
+  }
+  return await setDoc(docRef, updatedData)
 }
