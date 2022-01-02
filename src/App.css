@@ -21,6 +21,7 @@
 
 .popup-place-heading {
   margin-top: 0.5rem;
+  overflow-wrap: break-word;
 }
 
 .popup-info {
