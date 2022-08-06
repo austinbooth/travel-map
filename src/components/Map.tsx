@@ -23,9 +23,9 @@ interface MapProps {
     longitude: number
     zoom: number
   }
-  setViewport: (viewport: Viewport) => void
+  setViewport: React.Dispatch<React.SetStateAction<Viewport>>
   popupInfo: string | null
-  setPopupInfo: (uid: string | null) => void
+  setPopupInfo: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => {
@@ -58,7 +58,7 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
           setPopupInfo(null)
           setTimeout(() => setPopupInfo(pin.uid), 0)
           // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open
-          setViewport({...viewport, latitude: pin.latitude, longitude: pin.longitude, zoom: Math.max(viewport.zoom, 16)})
+          setViewport((current) => ({...current, latitude: pin.latitude, longitude: pin.longitude, zoom: Math.max(current.zoom, 16)}))
         }
       }}>
         <img src={pin.user === auth.currentUser?.uid ? redPin : greenPin} alt={"pin"} />
