@@ -2,14 +2,7 @@ import { FC, useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import LocationForm from "../components/LocationForm"
 import Map from "../components/Map"
-
-interface Viewport {
-  width: number
-  height: number
-  latitude: number
-  longitude: number
-  zoom: number
-}
+import { Viewport } from '../types'
 
 const Home: FC = () => {
   const navigate = useNavigate()
