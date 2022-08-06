@@ -1,5 +1,6 @@
 import { DateTime } from "luxon"
 import { MediaData } from "./types"
+import { getAllUsers, getAllMediaForUser } from './firestoreUtils'
 
 export const getDateFromFilename = (filename: string): DateTime => {
   const filenameWithOutExt = filename.slice(0, -4) // need a regex that can take care of multiple file formats
@@ -39,4 +40,13 @@ export const getDateOrDateRange = (data: MediaData) => {
     return earliestDateString
   }
   return `${earliestDateString} - ${latestDateString}`
+}
+
+export const getMediaForAllUsers = async () => {
+  const users = await getAllUsers()
+  const usersData = await Promise.all(users.map(async(user) => {
+    const data = await getAllMediaForUser(user)
+    return data
+  }))
+  return usersData.flat()
 }

@@ -1,11 +1,11 @@
-import { FC, SyntheticEvent, useEffect, useState } from "react"
+import { FC, SyntheticEvent } from "react"
 import MapGL, { Marker } from "react-map-gl"
 import redPin from "../images/red-pin.png"
 import greenPin from "../images/green-pin.png"
-import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
-import { MediaData, Viewport } from "../types"
+import { Viewport } from "../types"
+import useMedia from './MediaContext'
 
 // Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:
 import mapboxgl from 'mapbox-gl'
@@ -29,22 +29,15 @@ interface MapProps {
 }
 
 const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => {
-  const [data, setData] = useState<MediaData[]>()
-  useEffect(() => {
-    void (async () => {
-      const users = await getAllUsers()
-      console.log('USERS:', users)
-      const usersData = await Promise.all(users.map(async(user) => {
-        const data = await getAllMediaForUser(user)
-        return data
-      }))
-      setData(usersData.flat() as MediaData[])
-      console.log(usersData.flat())
-    })()
-  }, [])
-  if (!data) {
+  const result = useMedia()
+  if (result.state === 'Error') {
+    return <p>There was an error, please try again.</p>
+  }
+  if (result.state === 'Loading') {
     return <p>Loading...</p>
   }
+  const { data } = result
+  
   const pinData = data.map((pin) => (
     <Marker
       key={pin.uid}
