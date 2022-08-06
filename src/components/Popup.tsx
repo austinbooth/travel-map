@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, ChangeEvent } from 'react'
+import { FC, useState, ChangeEvent } from 'react'
 import { getDownloadUrlFromUri, setPlaceInFirestore } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData, Uid } from '../types'
@@ -12,6 +12,7 @@ import getAuthUser from '../services/getAuthUser'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -32,9 +33,7 @@ interface Props {
 }
 
 const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>()
-  const [imageUrls, setImageUrls] = useState<string[]>()
-  const [info, setInfo] = useState<MediaData>()
+  const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState(false)
   const [modalContent, setModalContent] = useState<'gallery' | 'edit-location'>('gallery')
 
@@ -45,44 +44,66 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   }
 
   const user = getAuthUser()
-  const [editable, setEditable] = useState(false)
   const [editLocation, setEditLocation] = useState('')
 
-  useEffect(() => {
-    void (async () => {
-      const info = data.find((location) => location.uid === uid)
-      if (!info) {
-        return <div>Location not found</div>
-      }
-      console.log(info)
-      setInfo(info)
-      const thumbnailUrl = await getDownloadUrlFromUri(info.images[0].thumbnailUri)
-      if (thumbnailUrl) {
-        setThumbnailUrl(thumbnailUrl)
-      }
-      const imageUrls = compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri))))
-      setImageUrls(imageUrls)
+  const info = data.find((location) => location.uid === uid)
+  if (!info) {
+    throw new Error('Location not found')
+  }
+  const thumbnailData = useQuery([`thumb-${info.uid}`], async () => getDownloadUrlFromUri(info.images[0].thumbnailUri))
+  const imageData = useQuery([`images-${info.uid}`], async () => compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri)))))
+  // const update = (newLocation: string) => setPlaceInFirestore(user.uid, info?.uid, newLocation)
+  const mutation = useMutation((newLocation: string) => setPlaceInFirestore(user.uid, info?.uid, newLocation), {
+    onMutate: async (newLocation: string) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(['getMedia'])
 
-      if (info.user === user.uid) {
-        setEditable(true)
+      // Snapshot the previous value
+      const previous = (queryClient.getQueryData(['getMedia']) as MediaData[]).find((location) => location.uid === uid)
+      if (previous === undefined) {
+        throw new Error('Could not find old values')
       }
-      setEditLocation(info.place)
-    })()
-  },[data, uid, user.uid])
+      // Optimistically update to the new value
+      queryClient.setQueryData(['getMedia'], () => {
+        return [{...previous, place: newLocation}]
+      })
+      // Return a context object with the snapshotted value
+      return { previous }
+    },
+    // If the mutation fails, use the context returned from onMutate to roll back
+    onError: (err, newLocation, context) => {
+      if (context === undefined) {
+        throw new Error('Context not set')
+      }
+      queryClient.setQueryData(['getMedia'], context.previous)
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(['getMedia'])
+    },
+  })
+
+  if (thumbnailData.isLoading || imageData.isLoading) {
+    return <p>Loading...</p>
+  }
+  if (thumbnailData.error || imageData.isError) {
+    return <p>Error</p>
+  }
+
+  const thumbnailUrl = thumbnailData.data
+  const imageUrls = imageData.data
+
+  const editable = info.user === user.uid
 
   const setPlace = async () => {
     if (info && editLocation) {
-      await setPlaceInFirestore(user.uid, info?.uid, editLocation)
-      const updatedInfo = {...info, place: editLocation}
-      setInfo(updatedInfo)
+      console.log('--->', editLocation)
+      mutation.mutate(editLocation)      
       setEditLocation('')
       handleCloseModal()
     }
   }
 
-  if (!info) {
-    return <p>Loading...</p>
-  }
   const dateOrDateRange = getDateOrDateRange(info)
   return (
     <Popup
