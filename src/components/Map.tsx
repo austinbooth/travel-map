@@ -65,7 +65,8 @@ const Map: FC<MapProps> = ({viewport, setViewport, popupInfo, setPopupInfo}) => 
         if (e.currentTarget.id !== popupInfo) {
           setPopupInfo(null)
           setTimeout(() => setPopupInfo(pin.uid), 0)
-          // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open  
+          // if another pin is clicked when a popup is already open, this allows the popup to be closed and the new one to open
+          setViewport({...viewport, latitude: pin.latitude, longitude: pin.longitude, zoom: Math.max(viewport.zoom, 16)})
         }
       }}>
         <img src={pin.user === auth.currentUser?.uid ? redPin : greenPin} alt={"pin"} />
