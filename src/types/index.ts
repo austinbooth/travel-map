@@ -36,3 +36,11 @@ export interface ImageDataForSavingToFirestore {
   place: string
   country: string
 }
+
+export interface Viewport {
+  width: number
+  height: number
+  latitude: number
+  longitude: number
+  zoom: number
+}

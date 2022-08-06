@@ -5,7 +5,7 @@ import greenPin from "../images/green-pin.png"
 import { getAllMediaForUser, getAllUsers } from "../firestoreUtils"
 import PopUp from "./Popup"
 import { auth } from '../firebaseSingleton'
-import { MediaData } from "../types"
+import { MediaData, Viewport } from "../types"
 
 // Following 6 lines from https://stackoverflow.com/questions/65434964/mapbox-blank-map-react-map-gl-reactjs:
 import mapboxgl from 'mapbox-gl'
@@ -14,14 +14,6 @@ import mapboxgl from 'mapbox-gl'
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default 
-
-interface Viewport {
-  width: number
-  height: number
-  latitude: number
-  longitude: number
-  zoom: number
-}
 
 interface MapProps {
   viewport: {
