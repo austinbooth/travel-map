@@ -1,18 +1,15 @@
-import { FC, useState, ChangeEvent } from 'react'
+import { FC, useState } from 'react'
 import { getDownloadUrlFromUri, setPlaceInFirestore } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData, Uid } from '../types'
-import Modal from '@mui/material/Modal'
-import Box from '@mui/material/Box'
 import { SxProps } from '@mui/system'
 import { compact } from 'lodash'
 import { getDateOrDateRange } from '../util'
 import ThumbnailImage from './ThumbnailImage'
 import getAuthUser from '../services/getAuthUser'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Stack from '@mui/material/Stack'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import PopupModal from './PopupModal'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -127,78 +124,17 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
           />
         )}
       </div>
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-      >
-        { modalContent === 'gallery' ? (
-          <Box sx={
-            {
-              ...boxStyle,
-              width: parseInt(`${info.images.length === 1 ? 230 : info.images.length === 2 ? 320 : 500}`)
-            }
-          }>
-            <p className='popup-place-heading'>{`${info.place} ${dateOrDateRange}`}</p>
-            
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'}}>
-              {imageUrls && imageUrls.map((imageUrl, idx) => (
-                <img
-                  key={`${info.place}_image_${idx}`}
-                  src={imageUrl}
-                  alt={info.place}
-                  style={{
-                    maxHeight: '200px',
-                    margin: '5px',
-                    borderRadius: '5%'
-                  }}
-                />
-              ))}
-            </div>
-          </Box>
-        ) : (
-          <Box sx={
-            {
-              ...boxStyle,
-              width: '90%'
-            }
-          }>
-            <p className='popup-place-heading'>{`${info.place_full} ${dateOrDateRange}`}</p>
-            {info.images.map(image => <p key={image.imageUri} className='popup-place-heading'>{JSON.stringify(image.geo_data.components)}</p>)}
-
-            <Stack spacing={2} direction="row">
-              {
-                [
-                  ...new Set(info.images.reduce((acc: (string | number)[], curr) => [
-                    ...acc,
-                    curr.geo_data.components?.city,
-                    curr.geo_data.components?.town,
-                    curr.geo_data.components?.village,
-                    curr.geo_data.components?.hamlet,
-                    curr.geo_data.components?.suburb,
-                    curr.geo_data.components?.locality,
-                  ], []))
-                ]
-                .filter(Boolean)
-                .map((item) => <Button key={item} variant='outlined' onClick={() => setEditLocation('' + item)}>{item}</Button>)
-              }
-            </Stack>
-            
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '32px', gap: 8}}>
-              <TextField
-                id="outlined-basic"
-                variant="outlined"
-                label="Enter location displayed"
-                value={editLocation}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setEditLocation(e.currentTarget.value)}
-                // fullWidth
-                style={{width: '70%'}}
-              />
-              <Button variant='contained' onClick={setPlace}>Set location</Button>
-            </div>
-          </Box>
-        )
-      }
-      </Modal>
+      <PopupModal
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+        modalContent={modalContent}
+        info={info}
+        dateOrDateRange={dateOrDateRange}
+        imageUrls={imageUrls}
+        editLocation={editLocation}
+        setEditLocation={setEditLocation}
+        setPlace={setPlace}
+      />
     </Popup>
   )
 }
