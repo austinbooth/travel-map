@@ -28,7 +28,7 @@ interface PopupModalProps {
   imageUrls: string[]
   editLocation: string
   setEditLocation: React.Dispatch<React.SetStateAction<string>>
-  setPlace: () => Promise<void>
+  setPlace: () => void
 }
 const PopupModal: FC<PopupModalProps> = ({
   openModal, handleCloseModal, modalContent, info, dateOrDateRange, imageUrls, editLocation, setEditLocation, setPlace,
@@ -95,7 +95,7 @@ interface EditLocationProps {
   info: MediaData
   editLocation: string
   setEditLocation: React.Dispatch<React.SetStateAction<string>>
-  setPlace: () => Promise<void>
+  setPlace: () => void
 }
 const EditLocation: FC<EditLocationProps> = forwardRef(({dateOrDateRange, info, editLocation, setEditLocation, setPlace}, ref) => {
   return (

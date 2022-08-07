@@ -9,27 +9,25 @@ export const usePopupPlaceMutation = ({uid, userUid, infoUid}: {uid: string, use
   const queryClient = useQueryClient()
   return useMutation((newLocation: string) => setPlaceInFirestore(userUid, infoUid, newLocation), {
     onMutate: async (newLocation: string) => {
-        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-        await queryClient.cancelQueries(['getMedia'])
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(['getMedia'])
 
-        // Snapshot the previous value
-        const previous = (queryClient.getQueryData(['getMedia']) as MediaData[]).find((location) => location.uid === uid)
-        if (previous === undefined) {
-        throw new Error('Could not find old values')
-        }
-        // Optimistically update to the new value
-        queryClient.setQueryData(['getMedia'], () => {
-        return [{...previous, place: newLocation}]
-        })
-        // Return a context object with the snapshotted value
-        return { previous }
+      // Snapshot the previous value
+      const previous = (queryClient.getQueryData(['getMedia']) as MediaData[]).find((location) => location.uid === uid)
+      if (previous === undefined) {
+      throw new Error('Could not find old values')
+      }
+      // Optimistically update to the new value
+      queryClient.setQueryData(['getMedia'], () => [{...previous, place: newLocation}])
+      // Return a context object with the snapshotted value
+      return { previous }
     },
     // If the mutation fails, use the context returned from onMutate to roll back
     onError: (err, newLocation, context) => {
-        if (context === undefined) {
+      if (context === undefined) {
         throw new Error('Context not set')
-        }
-        queryClient.setQueryData(['getMedia'], context.previous)
+      }
+      queryClient.setQueryData(['getMedia'], context.previous)
     },
     // Always refetch after error or success:
     onSettled: () => {

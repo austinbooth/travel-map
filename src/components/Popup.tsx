@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData, Uid } from '../types'
-import { SxProps } from '@mui/system'
 import { compact } from 'lodash'
 import { getDateOrDateRange } from '../util'
 import ThumbnailImage from './ThumbnailImage'
@@ -11,18 +10,6 @@ import Button from '@mui/material/Button'
 import { useQuery } from '@tanstack/react-query'
 import PopupModal from './PopupModal'
 import { usePopupPlaceMutation } from '../mutations'
-
-const boxStyle: SxProps = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 500,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-}
 
 interface Props {
   uid: Uid
@@ -63,9 +50,8 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
 
   const editable = info.user === user.uid
 
-  const setPlace = async () => {
-    if (info && editLocation) {
-      console.log('--->', editLocation)
+  const setPlace = () => {
+    if (editLocation) {
       mutation.mutate(editLocation)      
       setEditLocation('')
       handleCloseModal()
