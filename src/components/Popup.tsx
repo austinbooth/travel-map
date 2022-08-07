@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { getDownloadUrlFromUri, setPlaceInFirestore } from '../firestoreUtils'
+import { getDownloadUrlFromUri } from '../firestoreUtils'
 import { Popup } from 'react-map-gl'
 import { MediaData, Uid } from '../types'
 import { SxProps } from '@mui/system'
@@ -8,8 +8,9 @@ import { getDateOrDateRange } from '../util'
 import ThumbnailImage from './ThumbnailImage'
 import getAuthUser from '../services/getAuthUser'
 import Button from '@mui/material/Button'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import PopupModal from './PopupModal'
+import { usePopupPlaceMutation } from '../mutations'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -30,7 +31,6 @@ interface Props {
 }
 
 const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
-  const queryClient = useQueryClient()
   const [openModal, setOpenModal] = useState(false)
   const [modalContent, setModalContent] = useState<'gallery' | 'edit-location'>('gallery')
 
@@ -49,36 +49,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   }
   const thumbnailData = useQuery([`thumb-${info.uid}`], async () => getDownloadUrlFromUri(info.images[0].thumbnailUri))
   const imageData = useQuery([`images-${info.uid}`], async () => compact(await Promise.all(info.images.map(image => getDownloadUrlFromUri(image.imageUri)))))
-  // const update = (newLocation: string) => setPlaceInFirestore(user.uid, info?.uid, newLocation)
-  const mutation = useMutation((newLocation: string) => setPlaceInFirestore(user.uid, info?.uid, newLocation), {
-    onMutate: async (newLocation: string) => {
-      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries(['getMedia'])
-
-      // Snapshot the previous value
-      const previous = (queryClient.getQueryData(['getMedia']) as MediaData[]).find((location) => location.uid === uid)
-      if (previous === undefined) {
-        throw new Error('Could not find old values')
-      }
-      // Optimistically update to the new value
-      queryClient.setQueryData(['getMedia'], () => {
-        return [{...previous, place: newLocation}]
-      })
-      // Return a context object with the snapshotted value
-      return { previous }
-    },
-    // If the mutation fails, use the context returned from onMutate to roll back
-    onError: (err, newLocation, context) => {
-      if (context === undefined) {
-        throw new Error('Context not set')
-      }
-      queryClient.setQueryData(['getMedia'], context.previous)
-    },
-    // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(['getMedia'])
-    },
-  })
+  const mutation = usePopupPlaceMutation({uid, userUid: user.uid, infoUid: info.uid})
 
   if (thumbnailData.isLoading || imageData.isLoading) {
     return <p>Loading...</p>
