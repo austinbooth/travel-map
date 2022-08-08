@@ -28,7 +28,6 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
   }
 
   const user = getAuthUser()
-  const [editLocation, setEditLocation] = useState('')
 
   const info = data.find((location) => location.uid === uid)
   if (!info) {
@@ -47,17 +46,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
 
   const thumbnailUrl = thumbnailData.data
   const imageUrls = imageData.data
-
   const editable = info.user === user.uid
-
-  const setPlace = () => {
-    if (editLocation) {
-      mutation.mutate(editLocation)      
-      setEditLocation('')
-      handleCloseModal()
-    }
-  }
-
   const dateOrDateRange = getDateOrDateRange(info)
   return (
     <Popup
@@ -88,9 +77,7 @@ const PopUp: FC<Props> = ({uid, data, setPopupInfo}) => {
         info={info}
         dateOrDateRange={dateOrDateRange}
         imageUrls={imageUrls}
-        editLocation={editLocation}
-        setEditLocation={setEditLocation}
-        setPlace={setPlace}
+        mutation={mutation}
       />
     </Popup>
   )

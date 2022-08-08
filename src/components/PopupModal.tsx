@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, forwardRef } from 'react'
+import { FC, ChangeEvent, forwardRef, useState } from 'react'
 import { MediaData } from '../types'
 import Modal from '@mui/material/Modal'
 import Box from '@mui/material/Box'
@@ -6,6 +6,7 @@ import { SxProps } from '@mui/system'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Stack from '@mui/material/Stack'
+import { UseMutationResult } from '@tanstack/react-query'
 
 const boxStyle: SxProps = {
   position: 'absolute',
@@ -26,12 +27,10 @@ interface PopupModalProps {
   info: MediaData
   dateOrDateRange: string
   imageUrls: string[]
-  editLocation: string
-  setEditLocation: React.Dispatch<React.SetStateAction<string>>
-  setPlace: () => void
+  mutation: UseMutationResult<void, unknown, string, { previous: MediaData }>
 }
 const PopupModal: FC<PopupModalProps> = ({
-  openModal, handleCloseModal, modalContent, info, dateOrDateRange, imageUrls, editLocation, setEditLocation, setPlace,
+  openModal, handleCloseModal, modalContent, info, dateOrDateRange, imageUrls, mutation,
 }) => (
   <Modal
     open={openModal}
@@ -47,9 +46,8 @@ const PopupModal: FC<PopupModalProps> = ({
         : <EditLocation
             info={info}
             dateOrDateRange={dateOrDateRange}
-            editLocation={editLocation}
-            setEditLocation={setEditLocation}
-            setPlace={setPlace}
+            mutation={mutation}
+            handleCloseModal={handleCloseModal}
           />
     }
   </Modal>
@@ -93,11 +91,18 @@ const Gallery: FC<GalleryProps> = forwardRef(({info, dateOrDateRange, imageUrls}
 interface EditLocationProps {
   dateOrDateRange: string
   info: MediaData
-  editLocation: string
-  setEditLocation: React.Dispatch<React.SetStateAction<string>>
-  setPlace: () => void
+  mutation: UseMutationResult<void, unknown, string, { previous: MediaData }>
+  handleCloseModal: () => void
 }
-const EditLocation: FC<EditLocationProps> = forwardRef(({dateOrDateRange, info, editLocation, setEditLocation, setPlace}, ref) => {
+const EditLocation: FC<EditLocationProps> = forwardRef(({dateOrDateRange, info, mutation, handleCloseModal}, ref) => {
+  const [editLocation, setEditLocation] = useState('')
+  const setPlace = () => {
+    if (editLocation) {
+      mutation.mutate(editLocation)      
+      setEditLocation('')
+      handleCloseModal()
+    }
+  }
   return (
     <Box
       sx={{...boxStyle, width: '90%'}}
