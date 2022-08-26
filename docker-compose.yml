@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  devcontainer:
+    depends_on:
+      - psql
+    build:
+      context: .
+      dockerfile: Devcontainer.Dockerfile
+    tty: true
+    volumes:
+      - .:/home/code
+      - /home/code/node_modules
+    ipc: host
+  psql:
+    image: postgres:13.6-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data/pgdata
